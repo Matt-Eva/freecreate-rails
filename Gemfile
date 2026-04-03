@@ -4,10 +4,10 @@ source "https://rubygems.org"
 gem "rails", "~> 8.1.3"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
-# 
+#
 gem "sqlite3", ">= 2.1"
 # Use postgres as the DB for active record
-gem 'pg', '~> 1.5', '>= 1.5.9'
+gem "pg", "~> 1.5", ">= 1.5.9"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]

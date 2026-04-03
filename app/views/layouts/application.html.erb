@@ -24,6 +24,16 @@
   </head>
 
   <body>
+    <h1>Freecreate</h1>
+    <nav>
+      <a href="/about_page">about </a>
+      <a href="/donate_page">donate</a>
+      <% if authenticated? %>
+      <a href="/profile_page">profile</a>
+      <% else %>
+        <%= link_to "Login", new_session_path %>
+     <%end %>
+    </nav>
     <%= yield %>
   </body>
 </html>

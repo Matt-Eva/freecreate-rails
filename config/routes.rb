@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   root "home_page#index"
   get "home_page/index"
+  get "/profile_page", to: "profile_page#index"
+  patch "/profile_page/username", to: "profile_page#update_username"
+  get "/about_page", to: "about_page#index"
+  get "/donate_page", to: "donate_page#index"
+
   resource :session
   resources :passwords, param: :token
   resource :sign_up

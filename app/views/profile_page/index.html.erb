@@ -1,0 +1,14 @@
+<% if Current.user.username %>
+<h2>Welcome, <%= Current.user.username%>!</h2>
+<%= button_to "logout", session_path, method: :delete if authenticated? %>
+   
+<%else %>
+    <h2>Welcome! </h2>
+    <p>You haven't set up a username yet</p>
+<% end %>
+
+<%= form_with url: "/profile_page/username", method: :patch do |form| %>
+    <%= form.label :username, "Enter Username" %>
+    <%= form.text_field :username, required: true %>
+    <%= form.submit "Update Username" %>
+<%end%>
