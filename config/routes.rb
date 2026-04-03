@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
+  resources :creators
+  
+
+  namespace :settings do
+    resource :password, only: [:show, :update]
+    get "/profile_page", to: "profile_page#index"
+    patch "/profile_page/username", to: "profile_page#update_username"
+  end
+
   root "home_page#index"
   get "home_page/index"
-  get "/profile_page", to: "profile_page#index"
-  patch "/profile_page/username", to: "profile_page#update_username"
   get "/about_page", to: "about_page#index"
   get "/donate_page", to: "donate_page#index"
 

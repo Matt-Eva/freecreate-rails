@@ -1,6 +1,5 @@
-class ProfilePageController < ApplicationController
+class Settings::ProfilePageController < ApplicationController
     def index
-        puts Current.user.username
     end
 
     def update_username
@@ -8,7 +7,7 @@ class ProfilePageController < ApplicationController
         if Current.user.update(username: params[:username])
             render :index, status: :see_other, notice: "Your profile was successfully updated"
         else
-
+            render :index, status: :unprocessable_entity
         end
     end
 end
