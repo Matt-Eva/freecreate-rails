@@ -1,7 +1,11 @@
 class CreatorsController < ApplicationController
 
-    def index
-        @creators = Current.user.creators
+    def edit
+        @creator = Current.user.creators.find_by(uuid: params[:uuid])
+    end
+
+    def update
+     @creator = Current.user.creators.find_by()
     end
 
     def new

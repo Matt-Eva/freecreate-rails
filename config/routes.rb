@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :creators
-  
+  root "home_page#index"
+   get "/search", to: "search#index", as: :search
+
+  resources :creators, param: :uuid
 
   namespace :settings do
     resource :password, only: [:show, :update]
@@ -12,10 +14,10 @@ Rails.application.routes.draw do
     root to: redirect("/settings/profile_page")
   end
 
-  root "home_page#index"
-  get "home_page/index"
+  
   get "/about_page", to: "about_page#index"
   get "/donate_page", to: "donate_page#index"
+ 
 
   resource :session
   resources :passwords, param: :token
