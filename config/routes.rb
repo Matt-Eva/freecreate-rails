@@ -4,8 +4,12 @@ Rails.application.routes.draw do
 
   namespace :settings do
     resource :password, only: [:show, :update]
-    get "/profile_page", to: "profile_page#index"
+    resource :email, only: [ :show, :update]
+    get "/profile_page", to: "profile_page#show", as: :profile_page
     patch "/profile_page/username", to: "profile_page#update_username"
+    get "/creator/:uuid", to: "creator#show", as: :creator
+
+    root to: redirect("/settings/profile_page")
   end
 
   root "home_page#index"

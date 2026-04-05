@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_03_230523) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_05_005615) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_03_230523) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }
+    t.index ["user_id", "name"], name: "index_creators_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_creators_on_user_id"
     t.index ["uuid"], name: "index_creators_on_uuid"
   end
@@ -39,8 +40,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_03_230523) do
     t.string "email_address", null: false
     t.boolean "is_adult"
     t.string "password_digest", null: false
+    t.string "unconfirmed_email"
     t.datetime "updated_at", null: false
-    t.string "username"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 

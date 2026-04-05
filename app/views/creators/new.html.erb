@@ -1,0 +1,9 @@
+<h1>New Creator</h1>
+
+<%= form_with model: @creator do |form|%>
+    <%= form.label :name, "Enter Creator Name", required: true%>
+    <%= form.text_field :name %>
+    <%= form.label :description, "Enter Brief Description (optional - character limit 500)" %>
+    <%= form.text_area :description, maxlength: 500 %>
+    <%= form.submit "Add Creator" %>
+<%end%>

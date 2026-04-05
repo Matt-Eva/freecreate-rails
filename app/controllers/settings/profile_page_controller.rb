@@ -1,5 +1,6 @@
 class Settings::ProfilePageController < ApplicationController
-    def index
+    def show
+        @creators = Current.user.creators
     end
 
     def update_username
