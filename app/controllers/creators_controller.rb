@@ -1,11 +1,20 @@
 class CreatorsController < ApplicationController
 
+    def show
+    end
+
     def edit
         @creator = Current.user.creators.find_by(uuid: params[:uuid])
+        
     end
 
     def update
-     @creator = Current.user.creators.find_by()
+     @creator = Current.user.creators.find(params[:id])
+     if @creator.update(creator_params)
+        redirect_to "/settings/creator/#{@creator.uuid}", status: :see_other
+     else
+        render :edit, status: :unprocessable_entity
+     end
     end
 
     def new
@@ -23,6 +32,6 @@ class CreatorsController < ApplicationController
 
     private
     def creator_params
-        params.expect(creator: [:name, :description])
+        params.expect(creator: [:name, :description, :about])
     end
 end

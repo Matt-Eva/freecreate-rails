@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   root "home_page#index"
    get "/search", to: "search#index", as: :search
 
-  resources :creators, param: :uuid
+  get "/creators/new", to: "creators#new", as: :new_creator
+  get "/creators/:uuid", to: "creators#show", as: :creator
+  get "/creators/:uuid/edit", to: "creators#edit", as: :edit_creator
+  post "/creators", to: "creators#create"
+  patch "/creators/:id", to: "creators#update"
 
   namespace :settings do
     resource :password, only: [:show, :update]
