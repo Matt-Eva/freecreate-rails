@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_05_025630) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_05_042535) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_05_025630) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "chapters", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "number"
+    t.datetime "originally_published"
+    t.boolean "published"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.uuid "uuid"
+    t.bigint "writing_id", null: false
+    t.index ["user_id"], name: "index_chapters_on_user_id"
+    t.index ["uuid"], name: "index_chapters_on_uuid"
+    t.index ["writing_id"], name: "index_chapters_on_writing_id"
+  end
+
   create_table "creators", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
@@ -83,8 +98,39 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_05_025630) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  create_table "writings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "creator_id", null: false
+    t.text "description"
+    t.bigint "donations"
+    t.bigint "flags"
+    t.datetime "last_published"
+    t.bigint "lib_adds"
+    t.bigint "likes"
+    t.bigint "list_adds"
+    t.bigint "rank"
+    t.integer "rank_tracker"
+    t.bigint "rel_rank"
+    t.text "tags"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.uuid "uuid"
+    t.bigint "views"
+    t.index ["creator_id"], name: "index_writings_on_creator_id"
+    t.index ["last_published"], name: "index_writings_on_last_published"
+    t.index ["rank"], name: "index_writings_on_rank"
+    t.index ["rel_rank"], name: "index_writings_on_rel_rank"
+    t.index ["user_id"], name: "index_writings_on_user_id"
+    t.index ["uuid"], name: "index_writings_on_uuid"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "chapters", "users"
+  add_foreign_key "chapters", "writings"
   add_foreign_key "creators", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "writings", "creators"
+  add_foreign_key "writings", "users"
 end

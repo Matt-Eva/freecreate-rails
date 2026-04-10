@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :chapters
+  resources :writings
   root "home_page#index"
    get "/search", to: "search#index", as: :search
 
