@@ -37,6 +37,13 @@
         <%= link_to "Login", new_session_path %>
      <%end %>
     </nav>
+    <aside>
+      <nav>
+      <% if authenticated? %>
+        <a href="/writings/new">write</a>
+      <% end %>
+      </nav>
+    </aside>
     <%= yield %>
   </body>
 </html>
