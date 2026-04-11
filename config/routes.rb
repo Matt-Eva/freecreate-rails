@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :chapters
-  resources :writings
+  
   root "home_page#index"
    get "/search", to: "search#index", as: :search
 
@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   get "/creators/:uuid/edit", to: "creators#edit", as: :edit_creator
   post "/creators", to: "creators#create"
   patch "/creators/:id", to: "creators#update"
+
+  get "/writings/new", to: "writings#new"
+  get "/writings/:uuid/edit", to: "writings#edit"
+  post "/writings", to: "writings#create"
 
   namespace :settings do
     resource :password, only: [:show, :update]

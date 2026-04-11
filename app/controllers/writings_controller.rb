@@ -6,7 +6,7 @@ class WritingsController < ApplicationController
 
     def create
         @user = Current.user
-        @creator = Creator.find_by(uuid: params[:creator_uuid])
+        @user.creators.find_by(uuid: params[:creator_uuid])
         new_writing_params = {
             user_id: @user.id,
             creator_id: @creator.id,
@@ -14,10 +14,18 @@ class WritingsController < ApplicationController
             description: params[:description],
             last_published: Time.now
         }
-        
-    # else    
-    #         render :new, status: :unprocessable_entity
-        # end
+        @writing = Writing.create(new_writing_params)
+        if @writing
+            redirect_to "/writings/#{@writing.uuid}/edit", status: :see_other
+        else    
+            render :new, status: :unprocessable_entity
+        end
+    end
+
+    def edit
+        @user = Current.user
+        @writing = @user.writings.find_by(uuid: params[:uuid]).includes(:creator)
+        @creators = @user.creators
     end
 
     # private     
