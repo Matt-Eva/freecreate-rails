@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_11_031937) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_11_032609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -67,6 +67,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_11_031937) do
     t.index ["writing_id"], name: "index_chapters_on_writing_id"
   end
 
+  create_table "creator_genres", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "creator_id", null: false
+    t.bigint "genre_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_creator_genres_on_creator_id"
+    t.index ["genre_id"], name: "index_creator_genres_on_genre_id"
+  end
+
+  create_table "creator_tags", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "creator_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_creator_tags_on_creator_id"
+    t.index ["tag_id"], name: "index_creator_tags_on_tag_id"
+  end
+
   create_table "creators", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
@@ -77,6 +95,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_11_031937) do
     t.index ["user_id", "name"], name: "index_creators_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_creators_on_user_id"
     t.index ["uuid"], name: "index_creators_on_uuid"
+  end
+
+  create_table "genres", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "genre"
+    t.datetime "updated_at", null: false
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -103,6 +127,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_11_031937) do
     t.string "unconfirmed_email"
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+  end
+
+  create_table "writing_tags", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "writing_id", null: false
+    t.index ["tag_id"], name: "index_writing_tags_on_tag_id"
+    t.index ["writing_id"], name: "index_writing_tags_on_writing_id"
   end
 
   create_table "writings", force: :cascade do |t|
@@ -132,12 +165,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_11_031937) do
     t.index ["uuid"], name: "index_writings_on_uuid"
   end
 
+  create_table "wrtiging_genres", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "genre_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "writing_id", null: false
+    t.index ["genre_id"], name: "index_wrtiging_genres_on_genre_id"
+    t.index ["writing_id"], name: "index_wrtiging_genres_on_writing_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chapters", "users"
   add_foreign_key "chapters", "writings"
+  add_foreign_key "creator_genres", "creators"
+  add_foreign_key "creator_genres", "genres"
+  add_foreign_key "creator_tags", "creators"
+  add_foreign_key "creator_tags", "tags"
   add_foreign_key "creators", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "writing_tags", "tags"
+  add_foreign_key "writing_tags", "writings"
   add_foreign_key "writings", "creators"
   add_foreign_key "writings", "users"
+  add_foreign_key "wrtiging_genres", "genres"
+  add_foreign_key "wrtiging_genres", "writings"
 end
