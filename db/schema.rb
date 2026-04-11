@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_11_033709) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_11_034414) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -151,21 +151,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_11_033709) do
     t.datetime "created_at", null: false
     t.bigint "creator_id", null: false
     t.text "description"
-    t.bigint "donations"
-    t.bigint "flags"
+    t.bigint "donations", default: 0
+    t.bigint "flags", default: 0
     t.datetime "last_published"
-    t.bigint "lib_adds"
-    t.bigint "likes"
-    t.bigint "list_adds"
-    t.bigint "rank"
-    t.integer "rank_tracker"
-    t.bigint "rel_rank"
+    t.bigint "lib_adds", default: 0
+    t.bigint "likes", default: 0
+    t.bigint "list_adds", default: 0
+    t.bigint "rank", default: 0
+    t.integer "rank_tracker", default: 0
+    t.bigint "rel_rank", default: 0
     t.text "tags"
     t.string "title"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }
-    t.bigint "views"
+    t.bigint "views", default: 1
     t.index ["creator_id"], name: "index_writings_on_creator_id"
     t.index ["last_published"], name: "index_writings_on_last_published"
     t.index ["rank"], name: "index_writings_on_rank"

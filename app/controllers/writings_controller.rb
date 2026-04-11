@@ -15,13 +15,13 @@ class WritingsController < ApplicationController
             last_published: Time.now
         }
         
-        else
-            render :new, status: :unprocessable_entity
-        end
+    # else    
+    #         render :new, status: :unprocessable_entity
+        # end
     end
 
-    private     
-        def writing_params
-            params.permit(writing: [:title, :tags, :genres, :description])
-        end
+    # private     
+    #     def writing_params
+    #         params.permit(writing: [:title, :tags, :genres, :description])
+    #     end
 end
