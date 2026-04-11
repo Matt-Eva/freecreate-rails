@@ -11,7 +11,8 @@ class WritingsController < ApplicationController
             user_id: @user.id,
             creator_id: @creator.id,
             title: params[:title],
-            description: params[:description]
+            description: params[:description],
+            last_published: Time.now
         }
         
         else
