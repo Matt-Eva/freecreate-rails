@@ -31,6 +31,16 @@ class CreatorsController < ApplicationController
         end
     end
 
+    def destroy
+        @creator = Current.user.creators.find(params[:id])
+        if @creator.destroy
+            redirect_to "/settings/profile_page", status: :see_other
+        else
+            render :edit, status: :unprocessable_entity
+        end
+
+    end
+
     private
     def creator_params
         params.expect(creator: [:name, :description, :about])

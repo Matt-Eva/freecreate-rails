@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get "/creators/:uuid/edit", to: "creators#edit", as: :edit_creator
   post "/creators", to: "creators#create"
   patch "/creators/:id", to: "creators#update"
+  delete "/creators/:id", to: "creators#destroy", as: :delete_creator
 
   get "/writings/new", to: "writings#new"
   get "/writings/:uuid/edit", to: "writings#edit"
