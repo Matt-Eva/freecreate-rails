@@ -1,6 +1,9 @@
 <%= link_to "<- Back to profile", settings_profile_page_path %>
 
 <h1><%= @creator.name %></h1>
-<p><%= @creator.description %></p>
-<%= @creator.about %>
 <%= link_to "edit", edit_creator_path(@creator.uuid) %>
+<%= link_to "public page", creator_path(@creator.uuid) %>
+<h2>description</h2>
+<p><%= @creator.description %></p>
+<h2>about</h2>
+<%= @creator.about %>
