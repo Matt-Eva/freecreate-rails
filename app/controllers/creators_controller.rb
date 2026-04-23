@@ -1,7 +1,8 @@
 class CreatorsController < ApplicationController
 
     def show
-        @creator = Creator.find_by(uuid: params[:uuid])
+        @creator = Creator.includes(:writings).find_by(uuid: params[:uuid])
+        puts @creator
     end
 
     def edit

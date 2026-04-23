@@ -1,7 +1,8 @@
 class Settings::CreatorController < ApplicationController
     def show
-        puts params
-        @creator = Current.user.creators.find_by(uuid: params[:uuid])
+        
+        @creator = Current.user.creators.includes(:writings).find_by(uuid: params[:uuid])
+        
     end
 
     def update

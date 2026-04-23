@@ -7,3 +7,7 @@
 <p><%= @creator.description %></p>
 <h2>about</h2>
 <%= @creator.about %>
+<h2>Writing</h2>
+<% @creator.writings.each do |writing| %>
+    <p> <%= writing.title %></p>
+<% end %>

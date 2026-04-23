@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   patch "/creators/:id", to: "creators#update"
   delete "/creators/:id", to: "creators#destroy", as: :delete_creator
 
-  get "/writings/new", to: "writings#new"
-  get "/writings/:uuid/edit", to: "writings#edit"
+  get "/writings/new", to: "writings#new", as: :new_writing
+  get "/writings/:uuid/edit", to: "writings#edit", as: :edit_writing
   post "/writings", to: "writings#create"
 
   namespace :settings do
