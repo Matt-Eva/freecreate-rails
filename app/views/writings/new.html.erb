@@ -1,12 +1,21 @@
 <h1>New Writing </h1>
 
+
+<% if @creators.length == 0%>
+<p>You still need to make your first creator profile.</p> 
+<p> You can create one on your <a href="/settings/profile_page">profile page</a>.</p> 
+<%else %>
 <%= form_with model: @writing do |form| %>
 <%= form.label "creator" %>
 <%= form.collection_select :creator_uuid, @creators, :uuid, :name, {prompt: "select a creator"}, {class: "form-select"} %>
 <%= form.label "Title" %>
-
+<%= form.text_field :title %>
+<%= form.label "Writing Type" %>
+<%= form.select :writing_type,
+["Poetry", "Short Story", "Novellete", "Novella", "Novel", "Essay", "Blog", "Memoir"],
+{prompt: "choose a writing type"},
+{class: "form-select"}
+%>
 <%= form.submit %>
 <%end%>
-<% if @creators.length == 0%>
-<p>Need to make a creator profile? Add one from your <a href="/settings/profile_page">profile page</a>.</p> 
 <% end %>
