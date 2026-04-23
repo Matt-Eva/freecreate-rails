@@ -6,7 +6,7 @@ class WritingsController < ApplicationController
 
     def create
         @user = Current.user
-        @user.creators.find_by(uuid: params[:creator_uuid])
+        @creator = @user.creators.find_by(uuid: params[:creator_uuid])
         new_writing_params = {
             user_id: @user.id,
             creator_id: @creator.id,

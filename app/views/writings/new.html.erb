@@ -1,1 +1,12 @@
 <h1>New Writing </h1>
+
+<%= form_with model: @writing do |form| %>
+<%= form.label "creator" %>
+<%= form.collection_select :creator_uuid, @creators, :uuid, :name, {prompt: "select a creator"}, {class: "form-select"} %>
+<%= form.label "Title" %>
+
+<%= form.submit %>
+<%end%>
+<% if @creators.length == 0%>
+<p>Need to make a creator profile? Add one from your <a href="/settings/profile_page">profile page</a>.</p> 
+<% end %>
