@@ -5,6 +5,10 @@ class CreatorsController < ApplicationController
         puts @creator
     end
 
+    def about
+        @creator = Creator.find_by(uuid: params[:uuid])
+    end
+
     def edit
         @creator = Current.user.creators.find_by(uuid: params[:uuid])
         

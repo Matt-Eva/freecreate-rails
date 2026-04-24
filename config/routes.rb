@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get "/creators/new", to: "creators#new", as: :new_creator
   get "/creators/:uuid", to: "creators#show", as: :creator
+  get "/creators/:uuid/about", to: "creators#about", as: :about_creator
   get "/creators/:uuid/edit", to: "creators#edit", as: :edit_creator
   post "/creators", to: "creators#create"
   patch "/creators/:id", to: "creators#update"
