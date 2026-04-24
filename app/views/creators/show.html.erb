@@ -1,1 +1,12 @@
-<h1><%= @creator.name %> </h1>
+<div>
+    <h2><%= @creator.name %> </h2>
+    <button>donate</button>
+    <button>follow</button>
+    <button>subscribe</button>
+</div>
+
+<div>
+<% @creator.writings.each do |writing| %>
+    <p style="border: solid;"> <%= writing.title %> </p>
+<% end %>
+</div>
