@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   get "/writings/new", to: "writings#new", as: :new_writing
   get "/writings/:uuid/edit", to: "writings#edit", as: :edit_writing
+  patch "/writings/:uuid", to: "writings#update", as: :update_writing
   get "/writings", to: "writings#index", as: :writings
   post "/writings", to: "writings#create"
 
