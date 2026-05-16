@@ -1,4 +1,18 @@
 class WritingsController < ApplicationController
+
+    def index
+        @writings = Current.user.writings.order(:last_published)
+        @published_writing =[]
+        @unpublished_writing = []
+        @writings.each do |writing|
+            if writing.published
+                @published_writing.push(writing)
+            else
+                @unpublished_writing.push(writing)
+            end
+        end
+    end
+
     def new
         @writing = Writing.new()
         @creators = Current.user.creators
