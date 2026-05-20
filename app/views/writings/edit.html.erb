@@ -1,4 +1,10 @@
 <%= form_with model: @writing, url: update_writing_path, method: :patch do |form| %>
     <%= form.label "title" %>
     <%= form.text_field :title  %>
+    <%= form.collection_select :creator_uuid, @creators, :uuid, :name, {selected: @writing.creator}, {class: "form-select"} %>
+    <%= form.select :writing_type,
+        ["Poetry", "Short Story", "Novellete", "Novella", "Novel", "Essay", "Blog", "Memoir"],
+        {selected: @writing.writing_type},
+        {class: "form-select"}
+        %>
 <% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_233051) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_20_145355) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -153,6 +153,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_233051) do
     t.text "description"
     t.bigint "donations", default: 0
     t.bigint "flags", default: 0
+    t.string "genres", default: [], array: true
     t.datetime "last_published"
     t.bigint "lib_adds", default: 0
     t.bigint "likes", default: 0
@@ -161,18 +162,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_233051) do
     t.bigint "rank", default: 0
     t.integer "rank_tracker", default: 0
     t.bigint "rel_rank", default: 0
-    t.text "tags"
+    t.string "tags", default: [], array: true
     t.string "title"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }
     t.bigint "views", default: 1
+    t.string "writing_type", default: "Short Story", null: false
     t.index ["creator_id"], name: "index_writings_on_creator_id"
+    t.index ["genres", "tags"], name: "index_writings_on_genres_and_tags", using: :gin
     t.index ["last_published"], name: "index_writings_on_last_published"
     t.index ["rank"], name: "index_writings_on_rank"
     t.index ["rel_rank"], name: "index_writings_on_rel_rank"
     t.index ["user_id"], name: "index_writings_on_user_id"
     t.index ["uuid"], name: "index_writings_on_uuid"
+    t.index ["writing_type"], name: "index_writings_on_writing_type"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
