@@ -24,6 +24,7 @@ class WritingsController < ApplicationController
         new_writing_params = {
             user_id: @user.id,
             creator_id: @creator.id,
+            writing_type: params[:writing][:writing_type],
             title: params[:writing][:title],
             last_published: Time.now
         }
