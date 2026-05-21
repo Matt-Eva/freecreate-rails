@@ -9,7 +9,10 @@
     %>
     <div data-controller="edit-checkbox">
         <% Writing::GENRES.each do |genre| %>
-            <p> <%= genre%> </p>
+           <div>
+                <%= check_box_tag "writing[genres][]", genre, @writing.genres.include?(genre), data: {edit_checkbox_target: "checkbox", action: "change->edit-checkbox#checkLimit"}%>
+                <%= label_tag "writing_genres_#{genre}", genre %>
+           </div>
         <% end %>
     </div>
 <% end %>
