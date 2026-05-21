@@ -7,7 +7,7 @@
 <%else %>
     <%= form_with model: @writing do |form| %>
         <%= form.label "creator" %>
-        <%= form.collection_select :creator_uuid, @creators, :uuid,  :name, {selected: @creators[0]}, {required: true, class: "form-select"}
+        <%= form.collection_select :creator_uuid, @creators, :uuid,  :name, {prompt: "choose a creator"}, {required: true, class: "form-select"}
         %>
         <%= form.label "Title" %>
         <%= form.text_field :title, required: true %>

@@ -6,5 +6,10 @@
         ["Poetry", "Short Story", "Novellete", "Novella", "Novel", "Essay", "Blog", "Memoir"],
         {selected: @writing.writing_type},
         {class: "form-select"}
-        %>
+    %>
+    <div data-controller="edit-checkbox">
+        <% Writing::GENRES.each do |genre| %>
+            <p> <%= genre%> </p>
+        <% end %>
+    </div>
 <% end %>

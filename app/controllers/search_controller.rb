@@ -6,6 +6,5 @@ class SearchController < ApplicationController
         if params[:title].present?
             @title = params[:title]
         end
-        
     end
 end

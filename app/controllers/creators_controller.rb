@@ -1,5 +1,4 @@
 class CreatorsController < ApplicationController
-
     def show
         @creator = Creator.includes(:writings).find_by(uuid: params[:uuid])
         puts @creator
@@ -11,7 +10,6 @@ class CreatorsController < ApplicationController
 
     def edit
         @creator = Current.user.creators.find_by(uuid: params[:uuid])
-        
     end
 
     def update
@@ -31,7 +29,7 @@ class CreatorsController < ApplicationController
         @creator = Current.user.creators.create(creator_params)
         if @creator
             redirect_to settings_profile_page_path, status: :see_other
-        else 
+        else
            render :new, status: :unprocessable_entity
         end
     end
@@ -43,11 +41,10 @@ class CreatorsController < ApplicationController
         else
             render :edit, status: :unprocessable_entity
         end
-
     end
 
     private
     def creator_params
-        params.expect(creator: [:name, :description, :about])
+        params.expect(creator: [ :name, :description, :about ])
     end
 end

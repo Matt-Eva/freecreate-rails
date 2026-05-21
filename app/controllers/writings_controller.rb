@@ -1,5 +1,4 @@
 class WritingsController < ApplicationController
-
     def index
         @writings = Current.user.writings.order(:last_published)
         @published_writing =[]
@@ -33,7 +32,7 @@ class WritingsController < ApplicationController
                 @writing = Writing.create(new_writing_params)
                 if @writing
                     redirect_to "/writings/#{@writing.uuid}/edit", status: :see_other
-                else    
+                else
                     render :new, status: :unprocessable_entity
                 end
             end
@@ -49,8 +48,8 @@ class WritingsController < ApplicationController
     def update
     end
 
-    # private     
-    #     def writing_params
-    #         params.permit(writing: [:title, :tags, :genres, :description])
-    #     end
+  # private
+  #     def writing_params
+  #         params.permit(writing: [:title, :tags, :genres, :description])
+  #     end
 end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :chapters
-  
+
   root "home_page#index"
    get "/search", to: "search#index", as: :search
 
@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   post "/writings", to: "writings#create"
 
   namespace :settings do
-    resource :password, only: [:show, :update]
-    resource :email, only: [ :show, :update]
+    resource :password, only: [ :show, :update ]
+    resource :email, only: [ :show, :update ]
     get "/profile_page", to: "profile_page#show", as: :profile_page
     patch "/profile_page/username", to: "profile_page#update_username"
     get "/creator/:uuid", to: "creator#show", as: :creator
@@ -28,10 +28,10 @@ Rails.application.routes.draw do
     root to: redirect("/settings/profile_page")
   end
 
-  
+
   get "/about_page", to: "about_page#index"
   get "/donate_page", to: "donate_page#index"
- 
+
 
   resource :session
   resources :passwords, param: :token
