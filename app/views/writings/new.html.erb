@@ -7,14 +7,15 @@
 <%else %>
     <%= form_with model: @writing do |form| %>
         <%= form.label "creator" %>
-        <%= form.collection_select :creator_uuid, @creators, :uuid, :name, {prompt: "select a creator"}, {class: "form-select"} %>
+        <%= form.collection_select :creator_uuid, @creators, :uuid,  :name, {selected: @creators[0]}, {required: true, class: "form-select"}
+        %>
         <%= form.label "Title" %>
-        <%= form.text_field :title %>
+        <%= form.text_field :title, required: true %>
         <%= form.label "Writing Type" %>
         <%= form.select :writing_type,
-        ["Poetry", "Short Story", "Novellete", "Novella", "Novel", "Essay", "Blog", "Memoir"],
-        {prompt: "choose a writing type"},
-        {class: "form-select"}
+            ["Short Story", "Novellete", "Novella", "Novel", "Poetry", "Essay", "Blog", "Memoir"],
+            {prompt: "choose a writing type"},
+            {required: true, class: "form-select"}
         %>
         <%= form.submit %>
     <%end%>
