@@ -2,10 +2,45 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static targets = ["checkbox"];
+  checkedBoxes = 0;
+
   connect() {
-    console.log("hello stimulus", this.element);
+    for (const el of this.checkboxTargets) {
+      if (el.checked) {
+        this.checkedBoxes++;
+      }
+    }
+    if (this.checkedBoxes >= 3) {
+      for (const el of this.checkboxTargets) {
+        if (!el.checked) {
+          el.disabled = true;
+        }
+      }
+    }
   }
+
   checkLimit(event) {
-    console.log(event.target);
+    if (event.target.checked) {
+      this.checkedBoxes++;
+    }
+
+    if (this.checkedBoxes >= 3) {
+      for (const el of this.checkboxTargets) {
+        if (!el.checked) {
+          el.disabled = true;
+        }
+      }
+    }
+
+    if (!event.target.checked) {
+      if (this.checkedBoxes === 3) {
+        for (const el of this.checkboxTargets) {
+          if (el.disabled) {
+            el.disabled = false;
+          }
+        }
+      }
+      this.checkedBoxes--;
+    }
   }
 }
