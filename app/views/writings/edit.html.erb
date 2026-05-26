@@ -7,13 +7,20 @@
         {selected: @writing.writing_type},
         {class: "form-select"}
     %>
-    <div data-controller="edit-checkbox">
+    <div data-controller="edit-writing">
+        <label>Select Genres (up to 3)</label>
         <% Writing::GENRES.each do |genre| %>
            <div>
                 <%= check_box_tag "writing[genres][]", genre, @writing.genres.include?(genre), data: {edit_checkbox_target: "checkbox", action: "change->edit-checkbox#checkLimit"}%>
                 <%= label_tag "writing_genres_#{genre}", genre %>
            </div>
         <% end %>
+    </div>
+
+    <div data-controller="edit-writing">
+        <label>Add Tags (up to 20)</label>
+        <input type="text" data-edit-writing-target="tagInput" placeholder="enter a tag..."/>
+        <button data-action="edit-writing#addTag">Add</button>
     </div>
     <%= form.submit %>
 <% end %>

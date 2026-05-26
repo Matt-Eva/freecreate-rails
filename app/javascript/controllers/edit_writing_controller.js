@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["checkbox"];
+  static targets = ["checkbox", "tagInput", "tagList"];
   checkedBoxes = 0;
 
   connect() {
@@ -43,4 +43,10 @@ export default class extends Controller {
       this.checkedBoxes--;
     }
   }
+
+  addTag(event) {
+    console.log(this.tagInputTarget.value);
+  }
+
+  removeTag(event) {}
 }
