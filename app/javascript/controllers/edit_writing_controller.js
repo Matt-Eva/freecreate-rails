@@ -75,6 +75,8 @@ export default class extends Controller {
 
   removeTag(event) {
     console.log("running");
-    console.log(event.target);
+    const span = event.target.closest(".tagSpan");
+    // console.log(span);
+    span.remove();
   }
 }
