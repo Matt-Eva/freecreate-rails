@@ -18,9 +18,19 @@
     </div>
 
     <div data-controller="edit-writing">
-        <label>Add Tags (up to 20)</label>
-        <input type="text" data-edit-writing-target="tagInput" placeholder="enter a tag..."/>
-        <button data-action="edit-writing#addTag">Add</button>
+        <div>
+            <label>Add Tags (up to 20)</label>
+            <input type="text" data-edit-writing-target="tagInput" placeholder="enter a tag..."/>
+            <button data-action="edit-writing#addTag">Add</button>
+        </div>
+        <div data-edit-writing-target="tagList">
+            <% @writing.tags.each do |tag| %>
+                <span data-action="click->edit-writing#removeTag" class="tagSpan">
+                    <span class="tagSpanText" data-action="click->edit-writing#removeTag"><%= tag %></span>
+                    <input type="hidden" name="writing[tags][]" value="<%= tag %>"/>
+                </span>
+            <% end %>
+        </div>
     </div>
     <%= form.submit %>
 <% end %>

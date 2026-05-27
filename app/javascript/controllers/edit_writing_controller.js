@@ -2,7 +2,11 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static targets = ["checkbox", "tagInput", "tagList"];
-  checkedBoxes = 0;
+
+  initialize() {
+    this.checkedBoxes = 0;
+    this.existingTags = new Set();
+  }
 
   connect() {
     for (const el of this.checkboxTargets) {
@@ -45,8 +49,32 @@ export default class extends Controller {
   }
 
   addTag(event) {
-    console.log(this.tagInputTarget.value);
+    event.preventDefault();
+
+    const tagInputText = this.tagInputTarget.value.trim();
+
+    const span = document.createElement("span");
+    span.className = "tagSpan";
+    span.setAttribute("data-action", "click->edit-writing#removeTag");
+
+    const tagText = document.createElement("span");
+    tagText.className = "tagSpanText";
+    tagText.textContent = tagInputText;
+
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = "writing[tags][]";
+    hiddenInput.value = tagInputText;
+
+    span.append(tagText, hiddenInput);
+
+    this.tagListTarget.append(span);
+    this.tagInputTarget.value = "";
+    this.tagInputTarget.focus();
   }
 
-  removeTag(event) {}
+  removeTag(event) {
+    console.log("running");
+    console.log(event.target);
+  }
 }
