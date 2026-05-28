@@ -3,18 +3,26 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["checkbox", "tagInput", "tagList", "submit", "cancel"];
 
-  initialize() {
-    this.checkedBoxes = 0;
-    this.existingTags = new Set();
-  }
+  static values = {
+    initialTitle: String,
+    initialDescription: String,
+    initialCreator: String,
+    initialWritingType: String,
+    initialGenres: Array,
+    initialTags: Array,
+    currentTags: Array,
+    checkedBoxes: Number,
+  };
+
+  initialize() {}
 
   connect() {
     for (const el of this.checkboxTargets) {
       if (el.checked) {
-        this.checkedBoxes++;
+        this.checkedBoxesValue++;
       }
     }
-    if (this.checkedBoxes >= 3) {
+    if (this.checkedBoxesValue >= 3) {
       for (const el of this.checkboxTargets) {
         if (!el.checked) {
           el.disabled = true;
@@ -36,10 +44,10 @@ export default class extends Controller {
   checkLimit(event) {
     this.registerChange();
     if (event.target.checked) {
-      this.checkedBoxes++;
+      this.checkedBoxesValue++;
     }
 
-    if (this.checkedBoxes >= 3) {
+    if (this.checkedBoxesValue >= 3) {
       for (const el of this.checkboxTargets) {
         if (!el.checked) {
           el.disabled = true;
@@ -48,14 +56,14 @@ export default class extends Controller {
     }
 
     if (!event.target.checked) {
-      if (this.checkedBoxes === 3) {
+      if (this.checkedBoxesValue === 3) {
         for (const el of this.checkboxTargets) {
           if (el.disabled) {
             el.disabled = false;
           }
         }
       }
-      this.checkedBoxes--;
+      this.checkedBoxesValue--;
     }
   }
 
