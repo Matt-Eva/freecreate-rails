@@ -17,17 +17,19 @@ export default class extends Controller {
   initialize() {}
 
   connect() {
-    for (const el of this.checkboxTargets) {
+    this.checkboxTargets.forEach((el) => {
       if (el.checked) {
         this.checkedBoxesValue++;
+        this.initialGenres = [...this.initialGenres, el.value];
       }
-    }
+    });
+
     if (this.checkedBoxesValue >= 3) {
-      for (const el of this.checkboxTargets) {
+      this.checkboxTargets.forEach((el) => {
         if (!el.checked) {
           el.disabled = true;
         }
-      }
+      });
     }
   }
 
