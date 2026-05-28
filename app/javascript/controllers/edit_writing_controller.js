@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["checkbox", "tagInput", "tagList"];
+  static targets = ["checkbox", "tagInput", "tagList", "submit", "cancel"];
 
   initialize() {
     this.checkedBoxes = 0;
@@ -23,7 +23,18 @@ export default class extends Controller {
     }
   }
 
+  registerChange() {
+    // console.log(this.submitTarget);
+    this.submitTarget.disabled = false;
+    this.cancelTarget.disabled = false;
+  }
+
+  cancelUpdate() {
+    console.log(this.cancelTarget);
+  }
+
   checkLimit(event) {
+    this.registerChange();
     if (event.target.checked) {
       this.checkedBoxes++;
     }
@@ -50,6 +61,7 @@ export default class extends Controller {
 
   addTag(event) {
     event.preventDefault();
+    this.registerChange();
 
     const tagInputText = this.tagInputTarget.value.trim();
 
@@ -74,9 +86,8 @@ export default class extends Controller {
   }
 
   removeTag(event) {
-    console.log("running");
+    this.registerChange();
     const span = event.target.closest(".tagSpan");
-    // console.log(span);
     span.remove();
   }
 }

@@ -15,9 +15,9 @@
                 <%= label_tag "writing_genres_#{genre}", genre %>
            </div>
         <% end %>
-    </div>
+    
 
-    <div data-controller="edit-writing">
+    
         <div>
             <label>Add Tags (up to 20)</label>
             <input type="text" data-edit-writing-target="tagInput" placeholder="enter a tag..."/>
@@ -31,6 +31,10 @@
                 </span>
             <% end %>
         </div>
+    
+   
+        <%= form.submit disabled: true, data: {edit_writing_target: "submit" } %>
+    
+        <%= button_tag "Cancel", disabled: true, data: {edit_writing_target: "cancel", action: "click->edit-writing#cancelUpdate"} %>
     </div>
-    <%= form.submit %>
 <% end %>
