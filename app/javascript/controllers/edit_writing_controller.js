@@ -20,7 +20,7 @@ export default class extends Controller {
     this.checkboxTargets.forEach((el) => {
       if (el.checked) {
         this.checkedBoxesValue++;
-        this.initialGenres = [...this.initialGenres, el.value];
+        this.initialGenresValue = [...this.initialGenresValue, el.value];
       }
     });
 
