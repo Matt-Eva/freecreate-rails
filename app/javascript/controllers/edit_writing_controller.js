@@ -34,7 +34,6 @@ export default class extends Controller {
   }
 
   registerChange() {
-    // console.log(this.submitTarget);
     this.submitTarget.disabled = false;
     this.cancelTarget.disabled = false;
   }
