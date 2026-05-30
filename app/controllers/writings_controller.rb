@@ -50,11 +50,15 @@ class WritingsController < ApplicationController
     end
 
     def publish
-        puts "hit publish path"
-    end
-
-    def unpublish
-        puts "hit unpublish path"
+        @writing = Current.user.writings.find_by(uuid: params[:uuid])
+        if @writing
+            if @writing.published
+                @writing.update(published: false)
+            elsif !@writing.published
+                @writing.update(published: true)
+            end
+        else
+        end
     end
 
   # private
