@@ -49,6 +49,14 @@ class WritingsController < ApplicationController
         puts params
     end
 
+    def publish
+        puts "hit publish path"
+    end
+
+    def unpublish
+        puts "hit unpublish path"
+    end
+
   # private
   #     def writing_params
   #         params.permit(writing: [:title, :tags, :genres, :description])
