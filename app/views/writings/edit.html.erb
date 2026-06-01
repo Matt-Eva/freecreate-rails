@@ -1,0 +1,90 @@
+<div data-controller="edit-writing">
+    
+        <% if @writing.published %>
+            <label>Unpublishing will remove the visibility of this content, but will not remove it's associated data.</label>
+            <%= button_to "unpublish", publish_writing_path(@writing.uuid), method: :patch %>
+        <% else %>
+            <%= button_to "publish", publish_writing_path(@writing.uuid), method: :patch %>
+        <% end %>
+    
+    <%= form_with model: @writing, url: update_writing_path, method: :patch do |form| %>
+        
+            <%= form.label "title" %>
+            <%= form.text_field :title, 
+                {
+                    data: {
+                        edit_writing_target: "title",
+                        action: "keydown->edit-writing#registerChange"
+                        }
+                }  %>
+            <%= form.collection_select :creator_uuid, 
+                @creators, 
+                :uuid, 
+                :name, 
+                {selected: @writing.creator}, 
+                {
+                    class: "form-select",  
+                    data: {
+                        edit_writing_target: "creator",
+                        action: "change->edit-writing#registerChange"
+                    }
+                }  
+            %>
+            <%= form.select :writing_type, 
+                Writing::WRITING_TYPES, 
+                {selected: @writing.writing_type}, 
+                {
+                    class: "form-select",
+                    data: {
+                        edit_writing_target: "writingType",
+                        action: "change->edit-writing#registerChange"
+                    }
+                }
+            %>
+            
+                <label>Select Genres (up to 3)</label>
+                <% Writing::GENRES.each do |genre| %>
+                <div>
+                        <%= check_box_tag "writing[genres][]", 
+                            genre, 
+                            @writing.genres.include?(genre), 
+                            data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
+                        %>
+                        <%= label_tag "writing_genres_#{genre}", genre %>
+                </div>
+                <% end %>
+            
+
+            
+                <div>
+                    <label>Add Tags (up to 20)</label>
+                    <input type="text" data-edit-writing-target="tagInput" placeholder="enter a tag..."/>
+                    <button data-action="edit-writing#addTag">Add</button>
+                </div>
+                <div data-edit-writing-target="tagList">
+                    <% @writing.tags.each do |tag| %>
+                        <span data-action="click->edit-writing#removeTag" class="tagSpan">
+                            <span class="tagSpanText" data-action="click->edit-writing#removeTag"><%= tag %></span>
+                            <input type="hidden" name="writing[tags][]" value="<%= tag %>"/>
+                        </span>
+                    <% end %>
+                </div>
+                <div>
+                    <%= form.label "description" %>
+                    <%= form.text_area :description, 
+                    {
+                        data: {
+                                edit_writing_target: "description",
+                                action: "keydown->edit-writing#registerChange"
+                            }
+                    } 
+                    %>
+                </div>
+            
+        
+                <%= form.submit disabled: true, data: {edit_writing_target: "submit" } %>
+            
+                <%= button_tag "Cancel", disabled: true, data: {edit_writing_target: "cancel", action: "click->edit-writing#cancelUpdate"} %>
+    
+    <% end %>
+  </div>

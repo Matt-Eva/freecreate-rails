@@ -1,0 +1,24 @@
+<h2>My Writing</h2>
+<% if @writings.length == 0 %>
+    <p>Looks like you don't have any writing yet!</p>
+<% else %>
+    <div>
+        <h3>Published Writing</h3>
+        <% @published_writing.each do |writing| %>
+            <div>
+                <p><%= writing.title %></p>
+                <%= link_to "edit", edit_writing_path(writing.uuid) %>
+            </div>
+        <% end %>
+    </div>
+        <h3>Unpublished Writing </h3>
+        <% @unpublished_writing.each do |writing| %>
+            <div>
+                <p><%= writing.title %> </p>
+                <%= link_to "edit", edit_writing_path(writing.uuid) %>
+            </div>
+        <% end %>
+    <div>
+
+    </div>
+<% end %>

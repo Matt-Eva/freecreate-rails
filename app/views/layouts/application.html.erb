@@ -6,6 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Freecreate">
     <meta name="mobile-web-app-capable" content="yes">
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -24,6 +25,26 @@
   </head>
 
   <body>
+    <h1><a href="/">Freecreate</a></h1>
+    <nav>
+      <a href="/">explore</a>
+      <a href="/search">search</a>
+      <a href="/about_page">about</a>
+      <a href="/donate_page">donate</a>
+      <% if authenticated? %>
+      <a href="/settings/profile_page">profile</a>
+      <% else %>
+        <%= link_to "Login", new_session_path %>
+     <%end %>
+    </nav>
+    <aside>
+      <nav>
+      <% if authenticated? %>
+        <a href="/writings/new">write</a>
+        <a href="/writings">my writing</a>
+      <% end %>
+      </nav>
+    </aside>
     <%= yield %>
   </body>
 </html>

@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  creator: one
+  title: MyString
+  tags: MyText
+  user: one
+  description: MyText
+  rank: 
+  rel_rank: 
+  likes: 
+  donations: 
+  lib_adds: 
+  list_adds: 
+  flags: 
+  views: 
+
+two:
+  creator: two
+  title: MyString
+  tags: MyText
+  user: two
+  description: MyText
+  rank: 
+  rel_rank: 
+  likes: 
+  donations: 
+  lib_adds: 
+  list_adds: 
+  flags: 
+  views: 

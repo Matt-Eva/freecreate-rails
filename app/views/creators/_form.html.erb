@@ -1,0 +1,12 @@
+<%= form_with model: @creator do |form| %>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+    <%= form.label :description, "Enter Brief Description (optional - character limit 100)" %>
+    <%= form.text_field :description, maxlength: 100 %>
+    <%= form.submit %>
+    <%= form.label :about, "About (optional)" %>
+    <%= form.rich_textarea :about %>
+<% end %>
+<% @creator.errors.full_messages.each do |error| %>
+    <p><%= error %></p>
+<% end %>
