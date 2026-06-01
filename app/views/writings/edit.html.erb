@@ -1,11 +1,6 @@
 <div data-controller="edit-writing">
     
-        <% if @writing.published %>
-            <label>Unpublishing will remove the visibility of this content, but will not remove it's associated data.</label>
-            <%= button_to "unpublish", publish_writing_path(@writing.uuid), method: :patch %>
-        <% else %>
-            <%= button_to "publish", publish_writing_path(@writing.uuid), method: :patch %>
-        <% end %>
+        <%= render "publish_writing_button", writing: @writing %>
     
     <%= form_with model: @writing, url: update_writing_path, method: :patch do |form| %>
         

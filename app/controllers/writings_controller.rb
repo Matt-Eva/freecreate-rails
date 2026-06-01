@@ -52,10 +52,19 @@ class WritingsController < ApplicationController
     def publish
         @writing = Current.user.writings.find_by(uuid: params[:uuid])
         if @writing
-            if @writing.published
-                @writing.update(published: false)
-            elsif !@writing.published
-                @writing.update(published: true)
+            if @writing.update(published: !@writing.published)
+                respond_to do |format|
+                    format.turbo_stream do 
+                        render turbo_stream: turbo_stream.replace(
+                            "publish_writing_button", 
+                            partial: "publish_writing_button",
+                            writing: @writing
+                        )  
+                    end
+                    format.html {redirect_to edit_writing_path(@writing.uuid)}
+                end
+            else
+                render edit_writing_path(@writing.uuid), status: :unprocessable_entity
             end
         else
         end
