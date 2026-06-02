@@ -4,6 +4,8 @@ source "https://rubygems.org"
 gem "rails", "~> 8.1.3"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
+# adding lexxy text editor - beta
+gem 'lexxy', '~> 0.9.14.beta'
 #
 gem "sqlite3", ">= 2.1"
 # Use postgres as the DB for active record

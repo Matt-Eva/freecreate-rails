@@ -5,7 +5,7 @@
     <%= form.text_field :description, maxlength: 100 %>
     <%= form.submit %>
     <%= form.label :about, "About (optional)" %>
-    <%= form.rich_textarea :about %>
+    <%= form.rich_text_area :about %>
 <% end %>
 <% @creator.errors.full_messages.each do |error| %>
     <p><%= error %></p>
