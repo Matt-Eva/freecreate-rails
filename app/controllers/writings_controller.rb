@@ -67,6 +67,7 @@ class WritingsController < ApplicationController
                 render edit_writing_path(@writing.uuid), status: :unprocessable_entity
             end
         else
+            render edit_writing_path(@writing.uuid), status: :not_found
         end
     end
 

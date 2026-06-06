@@ -113,6 +113,11 @@ export default class extends Controller {
     this.registerChange();
 
     const tagInputText = this.tagInputTarget.value.trim();
+    const lowercaseTagInputText = tagInputText.toLowerCase();
+    const splitInput = lowercaseTagInputText.split(" ");
+    const filteredInput = splitInput.filter((str) => str !== "");
+    const rejoinedInput = filteredInput.join("-");
+    console.log(rejoinedInput);
 
     const span = document.createElement("span");
     span.className = "tagSpan";
@@ -120,12 +125,12 @@ export default class extends Controller {
 
     const tagText = document.createElement("span");
     tagText.className = "tagSpanText";
-    tagText.textContent = tagInputText;
+    tagText.textContent = rejoinedInput;
 
     const hiddenInput = document.createElement("input");
     hiddenInput.type = "hidden";
     hiddenInput.name = "writing[tags][]";
-    hiddenInput.value = tagInputText;
+    hiddenInput.value = rejoinedInput;
 
     span.append(tagText, hiddenInput);
 
