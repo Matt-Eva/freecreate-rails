@@ -150,6 +150,10 @@ export default class extends Controller {
 
   removeTag(event) {
     this.registerChange();
+    const tagText = event.target.textContent;
+    this.currentTagsValue = this.currentTagsValue.filter(
+      (tag) => tag !== tagText,
+    );
     const span = event.target.closest(".tagSpan");
     span.remove();
   }
