@@ -119,6 +119,15 @@ export default class extends Controller {
     const rejoinedInput = filteredInput.join("-");
     console.log(rejoinedInput);
 
+    const exists = this.currentTagsValue.find((val) => val === rejoinedInput);
+    if (exists) {
+      this.tagInputTarget.value = "";
+      return;
+    }
+
+    this.currentTagsValue = [...this.currentTagsValue, rejoinedInput];
+    console.log(this.currentTagsValue);
+
     const span = document.createElement("span");
     span.className = "tagSpan";
     span.setAttribute("data-action", "click->edit-writing#removeTag");
