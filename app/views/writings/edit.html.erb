@@ -52,8 +52,16 @@
 
             
                 <div>
-                    <label>Add Tags (up to 20)</label>
-                    <input type="text" data-edit-writing-target="tagInput" placeholder="enter a tag..."/>
+                    <label>Add Tags (up to 20 - char limit 50)</label>
+                    <%= text_field_tag "add tag", nil,
+                    {
+                        data: {
+                            edit_writing_target: "tagInput"
+                        },
+                        placeholder: "add tag",
+                        maxlength: 50,
+                    }
+                     %>
                     <button data-action="edit-writing#addTag">Add</button>
                 </div>
                 <div data-edit-writing-target="tagList">

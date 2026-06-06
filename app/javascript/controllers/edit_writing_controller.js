@@ -117,7 +117,6 @@ export default class extends Controller {
     const splitInput = lowercaseTagInputText.split(" ");
     const filteredInput = splitInput.filter((str) => str !== "");
     const rejoinedInput = filteredInput.join("-");
-    console.log(rejoinedInput);
 
     const exists = this.currentTagsValue.find((val) => val === rejoinedInput);
     if (exists) {
@@ -126,7 +125,6 @@ export default class extends Controller {
     }
 
     this.currentTagsValue = [...this.currentTagsValue, rejoinedInput];
-    console.log(this.currentTagsValue);
 
     const span = document.createElement("span");
     span.className = "tagSpan";
