@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_20_145355) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_07_015530) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -158,6 +158,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_20_145355) do
     t.bigint "lib_adds", default: 0
     t.bigint "likes", default: 0
     t.bigint "list_adds", default: 0
+    t.boolean "never_published"
     t.boolean "published", default: false
     t.bigint "rank", default: 0
     t.integer "rank_tracker", default: 0

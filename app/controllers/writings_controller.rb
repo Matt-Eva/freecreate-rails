@@ -47,6 +47,14 @@ class WritingsController < ApplicationController
 
     def update
         puts params
+        @user = Current.user
+        @creator = @user.creators.find_by(:uuid: params[:creator_uuid])
+        if @creator
+            update_hash = {
+                
+            }
+        else
+        end
     end
 
     def publish
