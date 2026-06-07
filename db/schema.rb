@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_07_015530) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_07_015716) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,6 +54,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_07_015530) do
 
   create_table "chapters", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.boolean "never_published"
     t.integer "number"
     t.datetime "originally_published"
     t.boolean "published"
