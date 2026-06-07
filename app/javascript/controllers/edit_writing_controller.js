@@ -69,18 +69,44 @@ export default class extends Controller {
     }
   }
 
-  registerChange() {
-    this.submitTarget.disabled = false;
-    this.cancelTarget.disabled = false;
-  }
-
   cancelUpdate() {
     this.submitTarget.disabled = true;
     this.cancelTarget.disabled = true;
     this.titleTarget.value = this.initialTitleValue;
+    this.creatorTarget.value = this.initialCreatorValue;
+    this.writingTypeTarget.value = this.initialWritingTypeValue;
+    this.descriptionTarget.value = this.initialDescriptionValue;
+    this.#restoreInitialGenres();
   }
-  #restoreInitialGenres() {}
+  #restoreInitialGenres() {
+    this.checkedBoxesValue = 0;
+    this.genreCheckboxTargets.forEach((target) => {
+      const selected = this.initialGenresValue.find(
+        (genre) => genre === target.value,
+      );
+      if (selected) {
+        target.checked = true;
+        this.checkedBoxesValue++;
+      } else {
+        target.checked = false;
+      }
+      target.disabled = false;
+    });
+
+    if (this.checkedBoxesValue >= 3) {
+      this.genreCheckboxTargets.forEach((target) => {
+        if (!target.checked) {
+          target.disabled = true;
+        }
+      });
+    }
+  }
   #restoreInitialTags() {}
+
+  registerChange() {
+    this.submitTarget.disabled = false;
+    this.cancelTarget.disabled = false;
+  }
 
   checkLimit(event) {
     this.registerChange();
