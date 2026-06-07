@@ -54,7 +54,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_07_015716) do
 
   create_table "chapters", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.boolean "never_published"
+    t.boolean "never_published", default: true, null: false
     t.integer "number"
     t.datetime "originally_published"
     t.boolean "published"
@@ -159,7 +159,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_07_015716) do
     t.bigint "lib_adds", default: 0
     t.bigint "likes", default: 0
     t.bigint "list_adds", default: 0
-    t.boolean "never_published"
+    t.boolean "never_published", default: true, null: false
     t.boolean "published", default: false
     t.bigint "rank", default: 0
     t.integer "rank_tracker", default: 0
