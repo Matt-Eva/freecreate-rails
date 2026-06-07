@@ -66,6 +66,7 @@ export default class extends Controller {
     const tagSpanTexts = document.getElementsByClassName(".tagSpanText");
     for (const span of tagSpanTexts) {
       this.InitialTagsValue = [...this.InitialTagsValue, span.textContent];
+      this.currentTagsValue = this.InitialTagsValue;
     }
   }
 
@@ -76,8 +77,10 @@ export default class extends Controller {
     this.creatorTarget.value = this.initialCreatorValue;
     this.writingTypeTarget.value = this.initialWritingTypeValue;
     this.descriptionTarget.value = this.initialDescriptionValue;
+    this.#restoreInitialTags();
     this.#restoreInitialGenres();
   }
+
   #restoreInitialGenres() {
     this.checkedBoxesValue = 0;
     this.genreCheckboxTargets.forEach((target) => {
@@ -101,7 +104,14 @@ export default class extends Controller {
       });
     }
   }
-  #restoreInitialTags() {}
+
+  #restoreInitialTags() {
+    this.tagListTarget.innerHTML = "";
+    this.currentTagsValue = [];
+    this.initialTagsValue.forEach((tag) => {
+      this.addTag(tag);
+    });
+  }
 
   registerChange() {
     this.submitTarget.disabled = false;
@@ -134,23 +144,29 @@ export default class extends Controller {
     }
   }
 
-  addTag(event) {
+  handleAddTag(event) {
     event.preventDefault();
-    this.registerChange();
+    if (this.currentTagsValue.length >= 20) {
+      return;
+    }
 
     const tagInputText = this.tagInputTarget.value.trim();
     const lowercaseTagInputText = tagInputText.toLowerCase();
     const splitInput = lowercaseTagInputText.split(" ");
     const filteredInput = splitInput.filter((str) => str !== "");
     const rejoinedInput = filteredInput.join("-");
-
     const exists = this.currentTagsValue.find((val) => val === rejoinedInput);
     if (exists) {
       this.tagInputTarget.value = "";
       return;
     }
+    this.addTag(rejoinedInput);
+  }
 
-    this.currentTagsValue = [...this.currentTagsValue, rejoinedInput];
+  addTag(tag) {
+    this.registerChange();
+
+    this.currentTagsValue = [...this.currentTagsValue, tag];
 
     const span = document.createElement("span");
     span.className = "tagSpan";
@@ -158,12 +174,12 @@ export default class extends Controller {
 
     const tagText = document.createElement("span");
     tagText.className = "tagSpanText";
-    tagText.textContent = rejoinedInput;
+    tagText.textContent = tag;
 
     const hiddenInput = document.createElement("input");
     hiddenInput.type = "hidden";
     hiddenInput.name = "writing[tags][]";
-    hiddenInput.value = rejoinedInput;
+    hiddenInput.value = tag;
 
     span.append(tagText, hiddenInput);
 
