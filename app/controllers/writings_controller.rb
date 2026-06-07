@@ -47,20 +47,37 @@ class WritingsController < ApplicationController
 
     def update
         puts params
+        writing_params = params[:writing]
         @user = Current.user
-        @creator = @user.creators.find_by(:uuid: params[:creator_uuid])
+        @writing = @user.writings.find_by(uuid: writing_params[:writing_uuid])
+        @creator = @user.creators.find_by(uuid: writing_params[:creator_uuid])
         if @creator
             update_hash = {
-                
+                creator_uuid: @creator.uuid,
+                genres: writing_params[:genres],
+                title: writing_params[:title],
+                tags: writing_params[:tags],
+                writing_type: writing_params[:writing_type],
+                description: writing_params[:description],
             }
+            puts update_hash
         else
+            render edit_writing_path(@writing.uuid), status: :not_found
         end
     end
 
     def publish
         @writing = Current.user.writings.find_by(uuid: params[:uuid])
         if @writing
-            if @writing.update(published: !@writing.published)
+            update_hash = {
+                published: !@writings.published
+            }
+            if @writing.never_published
+                update_hash[:never_published] = false
+                update_hash[:last_published] = Time.now
+            end
+
+            if @writing.update(update_hash)
                 respond_to do |format|
                     format.turbo_stream do 
                         render turbo_stream: turbo_stream.replace(
