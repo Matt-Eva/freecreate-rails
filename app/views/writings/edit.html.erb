@@ -38,7 +38,7 @@
             %>
             
                 <label>Select Genres (up to 3)</label>
-                <% Writing::GENRES.each do |genre| %>
+                <% Writing::FICTION_GENRES.each do |genre| %>
                 <div>
                         <%= check_box_tag "writing[genres][]", 
                             genre, 
