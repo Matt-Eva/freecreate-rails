@@ -42,7 +42,8 @@ class WritingsController < ApplicationController
     def edit
         @user = Current.user
         @writing = @user.writings.includes(:creator).find_by(uuid: params[:uuid])
-        puts @writing
+
+        
         @creators = @user.creators
         puts @creators
     end
@@ -57,12 +58,13 @@ class WritingsController < ApplicationController
         if creator
             update_hash = {
                 creator_id: creator.id,
-                genres: (writing_params[:genres] ? writing_params[:genres] : []),
+                topics: (writing_params[:topics] ? writing_params[:topics] : []),
                 title: writing_params[:title],
                 tags: (writing_params[:tags] ? writing_params[:tags] : []),
                 writing_type: writing_params[:writing_type],
                 description: writing_params[:description],
             }
+            puts update_hash
             if @writing.update(update_hash)
                 render :edit, status: :accepted
             else

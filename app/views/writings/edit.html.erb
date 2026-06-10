@@ -40,12 +40,12 @@
                 <label>Select Genres (up to 3)</label>
                 <% Writing::FICTION_GENRES.each do |genre| %>
                 <div>
-                        <%= check_box_tag "writing[genres][]", 
+                        <%= check_box_tag "writing[topics][]", 
                             genre, 
-                            @writing.genres.include?(genre), 
+                            @writing.topics.include?(genre), 
                             data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
                         %>
-                        <%= label_tag "writing_genres_#{genre}", genre %>
+                        <%= label_tag "writing_topics_#{genre}", genre %>
                 </div>
                 <% end %>
             

@@ -28,6 +28,8 @@ export default class extends Controller {
 
   connect() {
     this.#populateInitialValues();
+    this.submitTarget.disabled = true;
+    this.cancelTarget.disabled = true;
   }
 
   #populateInitialValues() {
@@ -37,12 +39,6 @@ export default class extends Controller {
     this.#populateInitialGenres();
     this.#populateInitialTags();
     this.initialDescriptionValue = this.descriptionTarget.value;
-    console.log(this.initialTitleValue);
-    console.log(this.initialCreatorValue);
-    console.log(this.initialWritingTypeValue);
-    console.log(this.initialGenresValue);
-    console.log(this.initialTagsValue);
-    console.log("initialDescriptionvalue", this.initialDescriptionValue);
   }
 
   #populateInitialGenres() {
@@ -63,9 +59,9 @@ export default class extends Controller {
   }
 
   #populateInitialTags() {
-    const tagSpanTexts = document.getElementsByClassName(".tagSpanText");
+    const tagSpanTexts = document.getElementsByClassName("tagSpanText");
     for (const span of tagSpanTexts) {
-      this.InitialTagsValue = [...this.InitialTagsValue, span.textContent];
+      this.initialTagsValue = [...this.initialTagsValue, span.textContent];
       this.currentTagsValue = this.InitialTagsValue;
     }
   }
@@ -114,6 +110,7 @@ export default class extends Controller {
   }
 
   registerChange() {
+    console.log("change registered");
     this.submitTarget.disabled = false;
     this.cancelTarget.disabled = false;
   }
@@ -145,6 +142,7 @@ export default class extends Controller {
   }
 
   handleAddTag(event) {
+    this.registerChange();
     event.preventDefault();
     if (this.currentTagsValue.length >= 20) {
       return;
@@ -164,8 +162,6 @@ export default class extends Controller {
   }
 
   addTag(tag) {
-    this.registerChange();
-
     this.currentTagsValue = [...this.currentTagsValue, tag];
 
     const span = document.createElement("span");
