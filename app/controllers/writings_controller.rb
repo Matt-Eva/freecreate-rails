@@ -42,27 +42,35 @@ class WritingsController < ApplicationController
     def edit
         @user = Current.user
         @writing = @user.writings.includes(:creator).find_by(uuid: params[:uuid])
+        puts @writing
         @creators = @user.creators
+        puts @creators
     end
 
     def update
-        puts params
         writing_params = params[:writing]
         @user = Current.user
-        @writing = @user.writings.find_by(uuid: writing_params[:writing_uuid])
-        @creator = @user.creators.find_by(uuid: writing_params[:creator_uuid])
-        if @creator
+        @writing = @user.writings.find_by(uuid: params[:uuid])
+        @creators = @user.creators
+        creator = @creators.find {|c| c.uuid == writing_params[:creator_uuid]}
+        puts creator
+        if creator
             update_hash = {
-                creator_uuid: @creator.uuid,
-                genres: writing_params[:genres],
+                creator_id: creator.id,
+                genres: (writing_params[:genres] ? writing_params[:genres] : []),
                 title: writing_params[:title],
-                tags: writing_params[:tags],
+                tags: (writing_params[:tags] ? writing_params[:tags] : []),
                 writing_type: writing_params[:writing_type],
                 description: writing_params[:description],
             }
-            puts update_hash
+            if @writing.update(update_hash)
+                render :edit, status: :accepted
+            else
+                render :edit, status: :unprocessable_entity
+            end
         else
-            render edit_writing_path(@writing.uuid), status: :not_found
+            puts "creator not found"
+            render :edit, status: :not_found
         end
     end
 
@@ -70,7 +78,7 @@ class WritingsController < ApplicationController
         @writing = Current.user.writings.find_by(uuid: params[:uuid])
         if @writing
             update_hash = {
-                published: !@writings.published
+                published: !@writing.published
             }
             if @writing.never_published
                 update_hash[:never_published] = false
@@ -89,10 +97,10 @@ class WritingsController < ApplicationController
                     format.html {redirect_to edit_writing_path(@writing.uuid)}
                 end
             else
-                render edit_writing_path(@writing.uuid), status: :unprocessable_entity
+                render :edit, status: :unprocessable_entity
             end
         else
-            render edit_writing_path(@writing.uuid), status: :not_found
+            render :edit, status: :not_found
         end
     end
 

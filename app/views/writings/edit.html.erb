@@ -2,7 +2,7 @@
     
         <%= render "publish_writing_button", writing: @writing %>
     
-    <%= form_with model: @writing, url: update_writing_path, method: :patch do |form| %>
+    <%= form_with model: @writing, url: edit_writing_path, method: :patch do |form| %>
         
             <%= form.label "title" %>
             <%= form.text_field :title, 
