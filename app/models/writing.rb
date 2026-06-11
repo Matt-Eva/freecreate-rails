@@ -2,6 +2,8 @@ class Writing < ApplicationRecord
   validates :title, presence: true
   validates :writing_type, presence: true
   validates :last_published, presence: true
+  # validates :topics, length: { maximum: 3 }
+  validates :tags, length: { maximum: 20 } 
 
   belongs_to :creator
   belongs_to :user

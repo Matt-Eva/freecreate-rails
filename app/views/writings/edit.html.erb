@@ -45,11 +45,13 @@
                             @writing.topics.include?(genre), 
                             data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
                         %>
-                        <% if genre == "No Topic" %>
-                            <%= label_tag "writing_topics_no_genre", "No Genre" %>
+                         <%= label_tag "writing_topics_#{genre}", genre %>
+                       <!-- <% if genre == "No Topic" %>
+                            <%= label_tag "writing_topics_#{genre}", "No Genre" %>
                         <% else %>
                             <%= label_tag "writing_topics_#{genre}", genre %>
                         <% end %>
+                        -->
                 </div>
                 <% end %>
             

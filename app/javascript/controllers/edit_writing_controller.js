@@ -43,16 +43,22 @@ export default class extends Controller {
   }
 
   #populateInitialGenres() {
-    this.genreCheckboxTargets.forEach((el) => {
+    for (const el of this.genreCheckboxTargets) {
+      console.log(el.value, el.checked);
+
       if (el.checked) {
-        this.checkedBoxesValue++;
         this.initialGenresValue = [...this.initialGenresValue, el.value];
+        if (el.value === "No Topic") {
+          el.disabled = true;
+          break;
+        }
+        this.checkedBoxesValue++;
       }
-    });
+    }
 
     if (this.checkedBoxesValue >= 3) {
       this.genreCheckboxTargets.forEach((el) => {
-        if (!el.checked) {
+        if (!el.checked && el.value != "No Topic") {
           el.disabled = true;
         }
       });
@@ -131,8 +137,8 @@ export default class extends Controller {
         el.disabled = false;
       }
 
-      event.target.checked = true;
-      event.target.disabled = true;
+      noGenreCheckbox.checked = true;
+      noGenreCheckbox.disabled = true;
       return;
     } else if (event.target.checked) {
       this.checkedBoxesValue++;

@@ -45,7 +45,6 @@ class WritingsController < ApplicationController
 
         
         @creators = @user.creators
-        puts @creators
     end
 
     def update
@@ -54,11 +53,11 @@ class WritingsController < ApplicationController
         @writing = @user.writings.find_by(uuid: params[:uuid])
         @creators = @user.creators
         creator = @creators.find {|c| c.uuid == writing_params[:creator_uuid]}
-        puts creator
+        puts writing_params
         if creator
             update_hash = {
                 creator_id: creator.id,
-                topics: (writing_params[:topics] ? writing_params[:topics] : []),
+                topics: (writing_params[:topics] ? writing_params[:topics] : ["No Topic"]),
                 title: writing_params[:title],
                 tags: (writing_params[:tags] ? writing_params[:tags] : []),
                 writing_type: writing_params[:writing_type],
@@ -66,6 +65,7 @@ class WritingsController < ApplicationController
             }
             puts update_hash
             if @writing.update(update_hash)
+                puts @writing.topics
                 render :edit, status: :accepted
             else
                 render :edit, status: :unprocessable_entity
