@@ -39,6 +39,7 @@ export default class extends Controller {
     this.#populateInitialGenres();
     this.#populateInitialTags();
     this.initialDescriptionValue = this.descriptionTarget.value;
+    console.log(this.initialGenresValue);
   }
 
   #populateInitialGenres() {
@@ -110,19 +111,41 @@ export default class extends Controller {
   }
 
   registerChange() {
-    console.log("change registered");
     this.submitTarget.disabled = false;
     this.cancelTarget.disabled = false;
   }
 
   checkLimit(event) {
     this.registerChange();
-    if (event.target.checked) {
+    console.log(event.target);
+    const noGenreCheckbox = this.genreCheckboxTargets.find(
+      (el) => el.value === "No Topic",
+    );
+
+    if (event.target.value === "No Topic") {
+      console.log("no topic");
+      this.checkedBoxesValue = 0;
+
+      for (const el of this.genreCheckboxTargets) {
+        el.checked = false;
+        el.disabled = false;
+      }
+
+      event.target.checked = true;
+      event.target.disabled = true;
+      return;
+    } else if (event.target.checked) {
       this.checkedBoxesValue++;
+
+      noGenreCheckbox.checked = false;
+      noGenreCheckbox.disabled = false;
     }
 
     if (this.checkedBoxesValue >= 3) {
       for (const el of this.genreCheckboxTargets) {
+        if (el.value === "No Topic") {
+          continue;
+        }
         if (!el.checked) {
           el.disabled = true;
         }
@@ -138,6 +161,10 @@ export default class extends Controller {
         }
       }
       this.checkedBoxesValue--;
+      if (this.checkedBoxesValue === 0) {
+        noGenreCheckbox.checked = true;
+        // noGenreCheckbox.disabled = true;
+      }
     }
   }
 
