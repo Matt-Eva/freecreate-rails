@@ -1,5 +1,7 @@
 class Writing < ApplicationRecord
   validates :title, presence: true
+  validates :writing_type, presence: true
+  validates :las_published, presence: true
 
   belongs_to :creator
   belongs_to :user

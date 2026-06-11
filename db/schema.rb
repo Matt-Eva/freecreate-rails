@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_10_113636) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_11_020814) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -178,7 +178,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_10_113636) do
     t.bigint "rel_rank", default: 0
     t.string "tags", default: [], null: false, array: true
     t.string "title"
-    t.string "topics", default: [], null: false, array: true
+    t.string "topics", default: ["No Topic"], null: false, array: true
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }
