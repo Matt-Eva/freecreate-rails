@@ -68,7 +68,7 @@ class WritingsController < ApplicationController
                 puts @writing
                 respond_to do |format|
 
-                    render :edit, status: :accepted
+                    format.html { render :edit, status: :accepted }
                 end
             else
                 puts "unprocessable entity"
@@ -100,7 +100,7 @@ class WritingsController < ApplicationController
                             writing: @writing
                         )  
                     end
-                    format.html {redirect_to edit_writing_path(@writing.uuid)}
+                    format.html {render :edit, status: :accepted}
                 end
             else
                 render :edit, status: :unprocessable_entity
