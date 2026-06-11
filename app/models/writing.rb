@@ -11,5 +11,5 @@ class Writing < ApplicationRecord
 
   FICTION_GENRES = ["No Topic", "Action", "Adventure", "Comedy", "Drama", "Erotica", "Fantasy", "Historical Fiction", "Horror", "Literary Fiction", "Magical Realism", "Mystery", "Romance", "Science Fiction", "Slice of Life", "Speculative Fiction", "Social Fiction", "Supernatural", "Superhero", "Thriller", "Young Adult"].freeze
   ESSAY_TOPICS = [].freeze
-  WRITING_TYPES = ["Short Story", "Novellete", "Novella", "Novel", "Poetry", "Essay", "Thought Piece", "Blog", "Memoir"].freeze
+  WRITING_TYPES = ["Short Story", "Novelette", "Novella", "Novel", "Poetry", "Essay", "Thought Piece", "Blog", "Memoir"].freeze
 end

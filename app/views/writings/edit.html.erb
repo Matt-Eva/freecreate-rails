@@ -36,24 +36,29 @@
                     }
                 }
             %>
-            
-                <label>Select Genres (up to 3)</label>
-                <% Writing::FICTION_GENRES.each do |genre| %>
+
+            <% if @writing.writing_type == "Short Story" || @writing.writing_type == "Novelette" || @writing.writing_type = "Novella" || @writing.writing_type == "Novel" %>
                 <div>
-                        <%= check_box_tag "writing[topics][]", 
-                            genre, 
-                            @writing.topics.include?(genre), 
-                            data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
-                        %>
-                        
-                      <% if genre == "No Topic" %>
-                            <%= label_tag "writing_topics_#{genre}", "No Genre" %>
-                        <% else %>
-                            <%= label_tag "writing_topics_#{genre}", genre %>
-                        <% end %>
-                        
+                    <label>Select Genres (up to 3)</label>
+                    <% Writing::FICTION_GENRES.each do |genre| %>
+                        <div>
+                                <%= check_box_tag "writing[topics][]", 
+                                    genre, 
+                                    @writing.topics.include?(genre), 
+                                    data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
+                                %>
+                                
+                            <% if genre == "No Topic" %>
+                                    <%= label_tag "writing_topics_#{genre}", "No Genre" %>
+                                <% else %>
+                                    <%= label_tag "writing_topics_#{genre}", genre %>
+                                <% end %>
+                                
+                        </div>
+                    <% end %>
                 </div>
-                <% end %>
+            <% else %>
+            <% end %>
             
 
             
