@@ -137,8 +137,8 @@ export default class extends Controller {
         el.disabled = false;
       }
 
-      noGenreCheckbox.checked = true;
       noGenreCheckbox.disabled = true;
+      noGenreCheckbox.checked = true;
       return;
     } else if (event.target.checked) {
       this.checkedBoxesValue++;
