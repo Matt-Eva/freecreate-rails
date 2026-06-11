@@ -1,5 +1,5 @@
-<div id="edit-writing-form">
-    <%= form_with model: @writing, url: edit_writing_path, method: :patch do |form| %>
+<div id="edit_writing_form">
+    <%= form_with model: @writing, url: update_writing_path, method: :patch do |form| %>
             
                 <%= form.label "title" %>
                 <%= form.text_field :title, 
@@ -22,6 +22,8 @@
                         }
                     }  
                 %>
+                <% puts "printing writing type from erb template" %>
+                <% puts @writing.writing_type %>
                 <%= form.select :writing_type, 
                     Writing::WRITING_TYPES, 
                     {selected: @writing.writing_type}, 
