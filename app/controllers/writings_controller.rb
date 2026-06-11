@@ -66,9 +66,9 @@ class WritingsController < ApplicationController
             puts update_hash
             if @writing.update(update_hash)
                 respond_to do |format|
-                    # format.turbo_stream do 
-                    #     render turbo_stream: turbo_stream.replace("edit_writing_form", partial: "edit_writing_form", writing: @writing)
-                    # end
+                    format.turbo_stream do 
+                        render turbo_stream: turbo_stream.replace("edit_writing_form", partial: "edit_writing_form", writing: @writing)
+                    end
 
                     format.html { redirect_to edit_writing_path(@writing.uuid)}
                 end
@@ -95,13 +95,13 @@ class WritingsController < ApplicationController
 
             if @writing.update(update_hash)
                 respond_to do |format|
-                    # format.turbo_stream do 
-                    #     render turbo_stream: turbo_stream.replace(
-                    #         "publish_writing_button", 
-                    #         partial: "publish_writing_button",
-                    #         writing: @writing
-                    #     )  
-                    # end
+                    format.turbo_stream do 
+                        render turbo_stream: turbo_stream.replace(
+                            "publish_writing_button", 
+                            partial: "publish_writing_button",
+                            writing: @writing
+                        )  
+                    end
                     format.html {redirect_to edit_writing_path(@writing.uuid)}
                 end
             else

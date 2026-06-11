@@ -41,17 +41,26 @@
                         <label>Select Genres (up to 3)</label>
                         <% Writing::FICTION_GENRES.each do |genre| %>
                             <div>
+                                   
+                                    
+                                <% if genre == "No Topic"  %>
+
+                                    <%= check_box_tag "writing[topics][]", 
+                                        genre, 
+                                        @writing.topics.include?(genre), 
+                                        disabled: @writing.topics.include?(genre),
+                                        data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
+                                    %>
+                                     <%= label_tag "writing_topics_#{genre}", "No Genre" %>
+                                <% else %>
+                                        
                                     <%= check_box_tag "writing[topics][]", 
                                         genre, 
                                         @writing.topics.include?(genre), 
                                         data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
                                     %>
-                                    
-                                <% if genre == "No Topic" %>
-                                        <%= label_tag "writing_topics_#{genre}", "No Genre" %>
-                                    <% else %>
-                                        <%= label_tag "writing_topics_#{genre}", genre %>
-                                    <% end %>
+                                    <%= label_tag "writing_topics_#{genre}", genre %>
+                                <% end %>   
                                     
                             </div>
                         <% end %>
