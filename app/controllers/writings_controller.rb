@@ -68,7 +68,7 @@ class WritingsController < ApplicationController
                 puts @writing
                 respond_to do |format|
 
-                render :edit, status: :accepted
+                    render :edit, status: :accepted
                 end
             else
                 puts "unprocessable entity"

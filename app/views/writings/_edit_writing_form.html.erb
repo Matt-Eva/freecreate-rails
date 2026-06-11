@@ -1,99 +1,101 @@
- <%= form_with model: @writing, url: edit_writing_path, method: :patch do |form| %>
-        
-            <%= form.label "title" %>
-            <%= form.text_field :title, 
-                {
-                    data: {
-                        edit_writing_target: "title",
-                        action: "keydown->edit-writing#registerChange"
-                        }
-                }  %>
-            <%= form.collection_select :creator_uuid, 
-                @creators, 
-                :uuid, 
-                :name, 
-                {selected: @writing.creator}, 
-                {
-                    class: "form-select",  
-                    data: {
-                        edit_writing_target: "creator",
-                        action: "change->edit-writing#registerChange"
-                    }
-                }  
-            %>
-            <%= form.select :writing_type, 
-                Writing::WRITING_TYPES, 
-                {selected: @writing.writing_type}, 
-                {
-                    class: "form-select",
-                    data: {
-                        edit_writing_target: "writingType",
-                        action: "change->edit-writing#registerChange"
-                    }
-                }
-            %>
-
-            <% if @writing.writing_type == "Short Story" || @writing.writing_type == "Novelette" || @writing.writing_type == "Novella" || @writing.writing_type == "Novel" %>
-                <div>
-                    <label>Select Genres (up to 3)</label>
-                    <% Writing::FICTION_GENRES.each do |genre| %>
-                        <div>
-                                <%= check_box_tag "writing[topics][]", 
-                                    genre, 
-                                    @writing.topics.include?(genre), 
-                                    data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
-                                %>
-                                
-                            <% if genre == "No Topic" %>
-                                    <%= label_tag "writing_topics_#{genre}", "No Genre" %>
-                                <% else %>
-                                    <%= label_tag "writing_topics_#{genre}", genre %>
-                                <% end %>
-                                
-                        </div>
-                    <% end %>
-                </div>
-            <% else %>
-            <% end %>
+<div id="edit-writing-form">
+    <%= form_with model: @writing, url: edit_writing_path, method: :patch do |form| %>
             
-
-            
-                <div>
-                    <label>Add Tags (up to 20 - char limit 50)</label>
-                    <%= text_field_tag "add tag", nil,
+                <%= form.label "title" %>
+                <%= form.text_field :title, 
                     {
                         data: {
-                            edit_writing_target: "tagInput"
-                        },
-                        placeholder: "add tag",
-                        maxlength: 50,
-                    }
-                     %>
-                    <button data-action="edit-writing#handleAddTag">Add</button>
-                </div>
-                <div data-edit-writing-target="tagList">
-                    <% @writing.tags.each do |tag| %>
-                        <span data-action="click->edit-writing#removeTag" class="tagSpan">
-                            <span class="tagSpanText" data-action="click->edit-writing#removeTag"><%= tag %></span>
-                            <input type="hidden" name="writing[tags][]" value="<%= tag %>"/>
-                        </span>
-                    <% end %>
-                </div>
-                <div>
-                    <%= form.label "description" %>
-                    <%= form.text_area :description, 
-                    {
-                        data: {
-                                edit_writing_target: "description",
-                                action: "keydown->edit-writing#registerChange"
+                            edit_writing_target: "title",
+                            action: "keydown->edit-writing#registerChange"
                             }
-                    } 
-                    %>
-                </div>
+                    }  %>
+                <%= form.collection_select :creator_uuid, 
+                    @creators, 
+                    :uuid, 
+                    :name, 
+                    {selected: @writing.creator}, 
+                    {
+                        class: "form-select",  
+                        data: {
+                            edit_writing_target: "creator",
+                            action: "change->edit-writing#registerChange"
+                        }
+                    }  
+                %>
+                <%= form.select :writing_type, 
+                    Writing::WRITING_TYPES, 
+                    {selected: @writing.writing_type}, 
+                    {
+                        class: "form-select",
+                        data: {
+                            edit_writing_target: "writingType",
+                            action: "change->edit-writing#registerChange"
+                        }
+                    }
+                %>
+
+                <% if @writing.writing_type == "Short Story" || @writing.writing_type == "Novelette" || @writing.writing_type == "Novella" || @writing.writing_type == "Novel" %>
+                    <div>
+                        <label>Select Genres (up to 3)</label>
+                        <% Writing::FICTION_GENRES.each do |genre| %>
+                            <div>
+                                    <%= check_box_tag "writing[topics][]", 
+                                        genre, 
+                                        @writing.topics.include?(genre), 
+                                        data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
+                                    %>
+                                    
+                                <% if genre == "No Topic" %>
+                                        <%= label_tag "writing_topics_#{genre}", "No Genre" %>
+                                    <% else %>
+                                        <%= label_tag "writing_topics_#{genre}", genre %>
+                                    <% end %>
+                                    
+                            </div>
+                        <% end %>
+                    </div>
+                <% else %>
+                <% end %>
+                
+
+                
+                    <div>
+                        <label>Add Tags (up to 20 - char limit 50)</label>
+                        <%= text_field_tag "add tag", nil,
+                        {
+                            data: {
+                                edit_writing_target: "tagInput"
+                            },
+                            placeholder: "add tag",
+                            maxlength: 50,
+                        }
+                        %>
+                        <button data-action="edit-writing#handleAddTag">Add</button>
+                    </div>
+                    <div data-edit-writing-target="tagList">
+                        <% @writing.tags.each do |tag| %>
+                            <span data-action="click->edit-writing#removeTag" class="tagSpan">
+                                <span class="tagSpanText" data-action="click->edit-writing#removeTag"><%= tag %></span>
+                                <input type="hidden" name="writing[tags][]" value="<%= tag %>"/>
+                            </span>
+                        <% end %>
+                    </div>
+                    <div>
+                        <%= form.label "description" %>
+                        <%= form.text_area :description, 
+                        {
+                            data: {
+                                    edit_writing_target: "description",
+                                    action: "keydown->edit-writing#registerChange"
+                                }
+                        } 
+                        %>
+                    </div>
+                
             
+                    <%= form.submit disabled: true, data: {edit_writing_target: "submit" } %>
+                
+                    <%= button_tag "Cancel", disabled: true, data: {edit_writing_target: "cancel", action: "click->edit-writing#cancelUpdate"} %>
         
-                <%= form.submit disabled: true, data: {edit_writing_target: "submit" } %>
-            
-                <%= button_tag "Cancel", disabled: true, data: {edit_writing_target: "cancel", action: "click->edit-writing#cancelUpdate"} %>
-    
     <% end %>
+</div>
