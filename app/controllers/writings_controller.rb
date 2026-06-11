@@ -43,7 +43,7 @@ class WritingsController < ApplicationController
         @user = Current.user
         @writing = @user.writings.includes(:creator).find_by(uuid: params[:uuid])
 
-        
+        puts @writing.writing_type
         @creators = @user.creators
     end
 
@@ -65,8 +65,11 @@ class WritingsController < ApplicationController
             }
             puts update_hash
             if @writing.update(update_hash)
-                puts @writing.topics
+                puts @writing
+                respond_to do |format|
+
                 render :edit, status: :accepted
+                end
             else
                 render :edit, status: :unprocessable_entity
             end

@@ -35,6 +35,7 @@ export default class extends Controller {
   #populateInitialValues() {
     this.initialTitleValue = this.titleTarget.value;
     this.initialCreatorValue = this.creatorTarget.value;
+    console.log(this.writingTypeTarget.value);
     this.initialWritingTypeValue = this.writingTypeTarget.value;
     this.#populateInitialGenres();
     this.#populateInitialTags();

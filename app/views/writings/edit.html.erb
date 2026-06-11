@@ -1,3 +1,8 @@
+
+<% content_for :head do %>
+  <meta name="turbo-cache-control" content="no-cache">
+<% end %>
+
 <div data-controller="edit-writing">
     
         <%= render "publish_writing_button", writing: @writing %>
@@ -37,7 +42,7 @@
                 }
             %>
 
-            <% if @writing.writing_type == "Short Story" || @writing.writing_type == "Novelette" || @writing.writing_type = "Novella" || @writing.writing_type == "Novel" %>
+            <% if @writing.writing_type == "Short Story" || @writing.writing_type == "Novelette" || @writing.writing_type == "Novella" || @writing.writing_type == "Novel" %>
                 <div>
                     <label>Select Genres (up to 3)</label>
                     <% Writing::FICTION_GENRES.each do |genre| %>
