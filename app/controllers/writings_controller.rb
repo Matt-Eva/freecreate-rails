@@ -71,6 +71,7 @@ class WritingsController < ApplicationController
                 render :edit, status: :accepted
                 end
             else
+                puts "unprocessable entity"
                 render :edit, status: :unprocessable_entity
             end
         else
