@@ -4,10 +4,22 @@
 <% end %>
 
 <div data-controller="edit-writing">
-    
+        <h2>Edit Writing</h2>
         <%= render "publish_writing_button", writing: @writing %>
-    
         <%= render "edit_writing_form", writing: @writing %>
 
-        <%= form_with model: @chapter, 
+        <div>
+          <h2>New Chapter</h2>
+          <%= form_with model: @chapter, url: create_chapter_path(writing_uuid: @writing.uuid) do |form| %>
+            <div>
+              <%= form.label "title (optional)" %>
+              <%= form.text_field :title %>
+            </div>
+            <div>
+              <%= form.label "number (optional)" %>
+              <%= form.number_field :number %>
+            </div>
+            <%= form.submit %>
+          <% end %>
+        </div>
   </div>

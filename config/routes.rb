@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :collections
-  resources :chapters
+  # resources :collections
+  # resources :chapters
 
   root "home_page#index"
    get "/search", to: "search#index", as: :search
@@ -20,6 +20,16 @@ Rails.application.routes.draw do
   patch "/writings/:uuid/unpublish", to: "writings#unpublish", as: :unpublish_writing
   get "/writings", to: "writings#index", as: :writings
   post "/writings", to: "writings#create"
+
+  get "/chapters/:uuid", to: "chapters#show"
+  post "/chapters/:writing_uuid", to: "chapters#create", as: :create_chapter
+  get "/chapters/:uuid/edit", to: "chapters#edit"
+  patch "/chapters/:uuid/edit", to: "chapters#update"
+
+  get "/collections", to: "collections#index"
+  get "/collections/:uuid", to: "collections#show"
+  get "/collections/new", to: "collections#new"
+  post "/collections", to: "collections#create"
 
   namespace :settings do
     resource :password, only: [ :show, :update ]
