@@ -91,7 +91,7 @@ class WritingsController < ApplicationController
                 update_hash[:last_published] = Time.now
             end
 
-            if nil # @writing.update!(update_hash)
+            if  @writing.update!(update_hash)
                 respond_to do |format|
                     format.turbo_stream do 
                         render turbo_stream: turbo_stream.replace(

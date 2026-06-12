@@ -5,7 +5,7 @@ export default class extends Controller {
     "title",
     "creator",
     "writingType",
-    "genreCheckbox",
+    "topicCheckbox",
     "tagInput",
     "tagList",
     "description",
@@ -44,7 +44,7 @@ export default class extends Controller {
   }
 
   #populateInitialGenres() {
-    for (const el of this.genreCheckboxTargets) {
+    for (const el of this.topicCheckboxTargets) {
       console.log(el.value, el.checked);
 
       if (el.checked) {
@@ -58,7 +58,7 @@ export default class extends Controller {
     }
 
     if (this.checkedBoxesValue >= 3) {
-      this.genreCheckboxTargets.forEach((el) => {
+      this.topicCheckboxTargets.forEach((el) => {
         if (!el.checked && el.value != "No Topic") {
           el.disabled = true;
         }
@@ -87,7 +87,7 @@ export default class extends Controller {
 
   #restoreInitialGenres() {
     this.checkedBoxesValue = 0;
-    this.genreCheckboxTargets.forEach((target) => {
+    this.topicCheckboxTargets.forEach((target) => {
       const selected = this.initialGenresValue.find(
         (genre) => genre === target.value,
       );
@@ -101,7 +101,7 @@ export default class extends Controller {
     });
 
     if (this.checkedBoxesValue >= 3) {
-      this.genreCheckboxTargets.forEach((target) => {
+      this.topicCheckboxTargets.forEach((target) => {
         if (!target.checked) {
           target.disabled = true;
         }
@@ -122,10 +122,12 @@ export default class extends Controller {
     this.cancelTarget.disabled = false;
   }
 
+  handleWritingTypeChange() {}
+
   checkLimit(event) {
     this.registerChange();
     console.log(event.target);
-    const noGenreCheckbox = this.genreCheckboxTargets.find(
+    const notopicCheckbox = this.topicCheckboxTargets.find(
       (el) => el.value === "No Topic",
     );
 
@@ -133,23 +135,23 @@ export default class extends Controller {
       console.log("no topic");
       this.checkedBoxesValue = 0;
 
-      for (const el of this.genreCheckboxTargets) {
+      for (const el of this.topicCheckboxTargets) {
         el.checked = false;
         el.disabled = false;
       }
 
-      noGenreCheckbox.disabled = true;
-      noGenreCheckbox.checked = true;
+      notopicCheckbox.disabled = true;
+      notopicCheckbox.checked = true;
       return;
     } else if (event.target.checked) {
       this.checkedBoxesValue++;
 
-      noGenreCheckbox.checked = false;
-      noGenreCheckbox.disabled = false;
+      notopicCheckbox.checked = false;
+      notopicCheckbox.disabled = false;
     }
 
     if (this.checkedBoxesValue >= 3) {
-      for (const el of this.genreCheckboxTargets) {
+      for (const el of this.topicCheckboxTargets) {
         if (el.value === "No Topic") {
           continue;
         }
@@ -161,7 +163,7 @@ export default class extends Controller {
 
     if (!event.target.checked) {
       if (this.checkedBoxesValue === 3) {
-        for (const el of this.genreCheckboxTargets) {
+        for (const el of this.topicCheckboxTargets) {
           if (el.disabled) {
             el.disabled = false;
           }
@@ -169,8 +171,8 @@ export default class extends Controller {
       }
       this.checkedBoxesValue--;
       if (this.checkedBoxesValue === 0) {
-        noGenreCheckbox.checked = true;
-        // noGenreCheckbox.disabled = true;
+        notopicCheckbox.checked = true;
+        // notopicCheckbox.disabled = true;
       }
     }
   }

@@ -22,8 +22,6 @@
                         }
                     }  
                 %>
-                <% puts "printing writing type from erb template" %>
-                <% puts @writing.writing_type %>
                 <%= form.select :writing_type, 
                     Writing::WRITING_TYPES, 
                     {selected: @writing.writing_type}, 
@@ -41,31 +39,47 @@
                         <label>Select Genres (up to 3)</label>
                         <% Writing::FICTION_GENRES.each do |genre| %>
                             <div>
-                                   
-                                    
                                 <% if genre == "No Topic"  %>
-
                                     <%= check_box_tag "writing[topics][]", 
                                         genre, 
                                         @writing.topics.include?(genre), 
                                         disabled: @writing.topics.include?(genre),
-                                        data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
+                                        data: {edit_writing_target: "topicCheckbox", action: "change->edit-writing#checkLimit"}
                                     %>
                                      <%= label_tag "writing_topics_#{genre}", "No Genre" %>
                                 <% else %>
-                                        
                                     <%= check_box_tag "writing[topics][]", 
                                         genre, 
                                         @writing.topics.include?(genre), 
-                                        data: {edit_writing_target: "genreCheckbox", action: "change->edit-writing#checkLimit"}
+                                        data: {edit_writing_target: "topicCheckbox", action: "change->edit-writing#checkLimit"}
                                     %>
                                     <%= label_tag "writing_topics_#{genre}", genre %>
-                                <% end %>   
-                                    
+                                <% end %>       
                             </div>
                         <% end %>
                     </div>
                 <% else %>
+                 <label>Select Topics (up to 3)</label>
+                        <% Writing::ESSAY_TOPICS.each do |topic| %>
+                            <div>
+                                <% if topic == "No Topic"  %>
+                                    <%= check_box_tag "writing[topics][]", 
+                                        topic, 
+                                        @writing.topics.include?(topic), 
+                                        disabled: @writing.topics.include?(topic),
+                                        data: {edit_writing_target: "topicCheckbox", action: "change->edit-writing#checkLimit"}
+                                    %>
+                                     <%= label_tag "writing_topics_#{topic}", "No topic" %>
+                                <% else %>
+                                    <%= check_box_tag "writing[topics][]", 
+                                        topic, 
+                                        @writing.topics.include?(topic), 
+                                        data: {edit_writing_target: "topicCheckbox", action: "change->edit-writing#checkLimit"}
+                                    %>
+                                    <%= label_tag "writing_topics_#{topic}", topic %>
+                                <% end %>       
+                            </div>
+                        <% end %>
                 <% end %>
                 
 
