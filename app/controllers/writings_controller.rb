@@ -43,6 +43,7 @@ class WritingsController < ApplicationController
         @user = Current.user
         @writing = @user.writings.includes(:creator).find_by(uuid: params[:uuid])
         @creators = @user.creators
+        @chapter = Chapter.new
     end
 
     def update

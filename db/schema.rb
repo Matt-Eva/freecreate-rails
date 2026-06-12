@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_11_020814) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_12_012323) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -55,10 +55,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_020814) do
   create_table "chapters", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "never_published", default: true, null: false
-    t.integer "number"
-    t.datetime "originally_published"
-    t.boolean "published"
-    t.string "title"
+    t.integer "number", default: 0, null: false
+    t.datetime "originally_published", null: false
+    t.boolean "published", default: false, null: false
+    t.string "title", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }
