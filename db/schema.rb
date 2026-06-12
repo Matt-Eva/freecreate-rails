@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_12_012323) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_12_013136) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -58,7 +58,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_012323) do
     t.integer "number", default: 0, null: false
     t.datetime "originally_published", null: false
     t.boolean "published", default: false, null: false
-    t.string "title", null: false
+    t.string "title", default: "", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }

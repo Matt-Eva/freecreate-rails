@@ -67,6 +67,7 @@ class WritingsController < ApplicationController
                         render turbo_stream: turbo_stream.replace("edit_writing_form", partial: "edit_writing_form", writing: @writing)
                     end
 
+                    @chapter = Chapter.new
                     format.html { render :edit, status: :accepted}
                 end
             else
@@ -101,10 +102,13 @@ class WritingsController < ApplicationController
                             writing: @writing
                         )  
                     end
+                    @creators = @user.creators
+                    @chapter = Chapter.new
                     format.html {render :edit, status: :accepted}
                 end
             else
                 @creators = @user.creators
+                @chapter = Chapter.new
                 render :edit, status: :unprocessable_entity
             end
         else
