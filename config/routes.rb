@@ -21,7 +21,8 @@ Rails.application.routes.draw do
   get "/writings", to: "writings#index", as: :writings
   post "/writings", to: "writings#create"
 
-  get "/chapters/:uuid", to: "chapters#show"
+  get "/chapters/:writing_uuid"
+  get "/chapters/::uuid", to: "chapters#show"
   post "/chapters/:writing_uuid", to: "chapters#create", as: :create_chapter
   get "/chapters/:uuid/edit", to: "chapters#edit"
   patch "/chapters/:uuid/edit", to: "chapters#update"
