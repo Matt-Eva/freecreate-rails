@@ -5,7 +5,7 @@ export default class extends Controller {
     "title",
     "creator",
     "writingType",
-    "genreCheckbox",
+    "topicCheckbox",
     "tagInput",
     "tagList",
     "description",
@@ -28,34 +28,38 @@ export default class extends Controller {
 
   connect() {
     this.#populateInitialValues();
+    this.submitTarget.disabled = true;
+    this.cancelTarget.disabled = true;
   }
 
   #populateInitialValues() {
     this.initialTitleValue = this.titleTarget.value;
     this.initialCreatorValue = this.creatorTarget.value;
+    console.log(this.writingTypeTarget.value);
     this.initialWritingTypeValue = this.writingTypeTarget.value;
     this.#populateInitialGenres();
     this.#populateInitialTags();
     this.initialDescriptionValue = this.descriptionTarget.value;
-    console.log(this.initialTitleValue);
-    console.log(this.initialCreatorValue);
-    console.log(this.initialWritingTypeValue);
     console.log(this.initialGenresValue);
-    console.log(this.initialTagsValue);
-    console.log("initialDescriptionvalue", this.initialDescriptionValue);
   }
 
   #populateInitialGenres() {
-    this.genreCheckboxTargets.forEach((el) => {
+    for (const el of this.topicCheckboxTargets) {
+      console.log(el.value, el.checked);
+
       if (el.checked) {
-        this.checkedBoxesValue++;
         this.initialGenresValue = [...this.initialGenresValue, el.value];
+        if (el.value === "No Topic") {
+          el.disabled = true;
+          break;
+        }
+        this.checkedBoxesValue++;
       }
-    });
+    }
 
     if (this.checkedBoxesValue >= 3) {
-      this.genreCheckboxTargets.forEach((el) => {
-        if (!el.checked) {
+      this.topicCheckboxTargets.forEach((el) => {
+        if (!el.checked && el.value != "No Topic") {
           el.disabled = true;
         }
       });
@@ -63,10 +67,54 @@ export default class extends Controller {
   }
 
   #populateInitialTags() {
-    const tagSpanTexts = document.getElementsByClassName(".tagSpanText");
+    const tagSpanTexts = document.getElementsByClassName("tagSpanText");
     for (const span of tagSpanTexts) {
-      this.InitialTagsValue = [...this.InitialTagsValue, span.textContent];
+      this.initialTagsValue = [...this.initialTagsValue, span.textContent];
+      this.currentTagsValue = this.InitialTagsValue;
     }
+  }
+
+  cancelUpdate() {
+    this.submitTarget.disabled = true;
+    this.cancelTarget.disabled = true;
+    this.titleTarget.value = this.initialTitleValue;
+    this.creatorTarget.value = this.initialCreatorValue;
+    this.writingTypeTarget.value = this.initialWritingTypeValue;
+    this.descriptionTarget.value = this.initialDescriptionValue;
+    this.#restoreInitialTags();
+    this.#restoreInitialGenres();
+  }
+
+  #restoreInitialGenres() {
+    this.checkedBoxesValue = 0;
+    this.topicCheckboxTargets.forEach((target) => {
+      const selected = this.initialGenresValue.find(
+        (genre) => genre === target.value,
+      );
+      if (selected) {
+        target.checked = true;
+        this.checkedBoxesValue++;
+      } else {
+        target.checked = false;
+      }
+      target.disabled = false;
+    });
+
+    if (this.checkedBoxesValue >= 3) {
+      this.topicCheckboxTargets.forEach((target) => {
+        if (!target.checked) {
+          target.disabled = true;
+        }
+      });
+    }
+  }
+
+  #restoreInitialTags() {
+    this.tagListTarget.innerHTML = "";
+    this.currentTagsValue = [];
+    this.initialTagsValue.forEach((tag) => {
+      this.addTag(tag);
+    });
   }
 
   registerChange() {
@@ -74,22 +122,39 @@ export default class extends Controller {
     this.cancelTarget.disabled = false;
   }
 
-  cancelUpdate() {
-    this.submitTarget.disabled = true;
-    this.cancelTarget.disabled = true;
-    this.titleTarget.value = this.initialTitleValue;
-  }
-  #restoreInitialGenres() {}
-  #restoreInitialTags() {}
+  handleWritingTypeChange() {}
 
   checkLimit(event) {
     this.registerChange();
-    if (event.target.checked) {
+    console.log(event.target);
+    const notopicCheckbox = this.topicCheckboxTargets.find(
+      (el) => el.value === "No Topic",
+    );
+
+    if (event.target.value === "No Topic") {
+      console.log("no topic");
+      this.checkedBoxesValue = 0;
+
+      for (const el of this.topicCheckboxTargets) {
+        el.checked = false;
+        el.disabled = false;
+      }
+
+      notopicCheckbox.disabled = true;
+      notopicCheckbox.checked = true;
+      return;
+    } else if (event.target.checked) {
       this.checkedBoxesValue++;
+
+      notopicCheckbox.checked = false;
+      notopicCheckbox.disabled = false;
     }
 
     if (this.checkedBoxesValue >= 3) {
-      for (const el of this.genreCheckboxTargets) {
+      for (const el of this.topicCheckboxTargets) {
+        if (el.value === "No Topic") {
+          continue;
+        }
         if (!el.checked) {
           el.disabled = true;
         }
@@ -98,21 +163,42 @@ export default class extends Controller {
 
     if (!event.target.checked) {
       if (this.checkedBoxesValue === 3) {
-        for (const el of this.genreCheckboxTargets) {
+        for (const el of this.topicCheckboxTargets) {
           if (el.disabled) {
             el.disabled = false;
           }
         }
       }
       this.checkedBoxesValue--;
+      if (this.checkedBoxesValue === 0) {
+        notopicCheckbox.checked = true;
+        // notopicCheckbox.disabled = true;
+      }
     }
   }
 
-  addTag(event) {
-    event.preventDefault();
+  handleAddTag(event) {
     this.registerChange();
+    event.preventDefault();
+    if (this.currentTagsValue.length >= 20) {
+      return;
+    }
 
     const tagInputText = this.tagInputTarget.value.trim();
+    const lowercaseTagInputText = tagInputText.toLowerCase();
+    const splitInput = lowercaseTagInputText.split(" ");
+    const filteredInput = splitInput.filter((str) => str !== "");
+    const rejoinedInput = filteredInput.join("-");
+    const exists = this.currentTagsValue.find((val) => val === rejoinedInput);
+    if (exists) {
+      this.tagInputTarget.value = "";
+      return;
+    }
+    this.addTag(rejoinedInput);
+  }
+
+  addTag(tag) {
+    this.currentTagsValue = [...this.currentTagsValue, tag];
 
     const span = document.createElement("span");
     span.className = "tagSpan";
@@ -120,12 +206,12 @@ export default class extends Controller {
 
     const tagText = document.createElement("span");
     tagText.className = "tagSpanText";
-    tagText.textContent = tagInputText;
+    tagText.textContent = tag;
 
     const hiddenInput = document.createElement("input");
     hiddenInput.type = "hidden";
     hiddenInput.name = "writing[tags][]";
-    hiddenInput.value = tagInputText;
+    hiddenInput.value = tag;
 
     span.append(tagText, hiddenInput);
 
@@ -136,6 +222,10 @@ export default class extends Controller {
 
   removeTag(event) {
     this.registerChange();
+    const tagText = event.target.textContent;
+    this.currentTagsValue = this.currentTagsValue.filter(
+      (tag) => tag !== tagText,
+    );
     const span = event.target.closest(".tagSpan");
     span.remove();
   }

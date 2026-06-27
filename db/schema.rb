@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_20_145355) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_12_013136) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,10 +54,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_20_145355) do
 
   create_table "chapters", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "number"
-    t.datetime "originally_published"
-    t.boolean "published"
-    t.string "title"
+    t.boolean "never_published", default: true, null: false
+    t.integer "number", default: 0, null: false
+    t.datetime "originally_published", null: false
+    t.boolean "published", default: false, null: false
+    t.string "title", default: "", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }
@@ -65,6 +66,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_20_145355) do
     t.index ["user_id"], name: "index_chapters_on_user_id"
     t.index ["uuid"], name: "index_chapters_on_uuid"
     t.index ["writing_id"], name: "index_chapters_on_writing_id"
+  end
+
+  create_table "collections", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "creator_id", null: false
+    t.string "tags", default: [], null: false, array: true
+    t.string "title"
+    t.string "topics", default: [], null: false, array: true
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["creator_id"], name: "index_collections_on_creator_id"
+    t.index ["topics", "tags"], name: "index_collections_on_topics_and_tags", using: :gin
+    t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
   create_table "creator_genres", force: :cascade do |t|
@@ -153,27 +167,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_20_145355) do
     t.text "description"
     t.bigint "donations", default: 0
     t.bigint "flags", default: 0
-    t.string "genres", default: [], array: true
     t.datetime "last_published"
     t.bigint "lib_adds", default: 0
     t.bigint "likes", default: 0
     t.bigint "list_adds", default: 0
+    t.boolean "never_published", default: true, null: false
     t.boolean "published", default: false
     t.bigint "rank", default: 0
     t.integer "rank_tracker", default: 0
     t.bigint "rel_rank", default: 0
-    t.string "tags", default: [], array: true
+    t.string "tags", default: [], null: false, array: true
     t.string "title"
+    t.string "topics", default: ["No Topic"], null: false, array: true
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }
     t.bigint "views", default: 1
     t.string "writing_type", default: "Short Story", null: false
     t.index ["creator_id"], name: "index_writings_on_creator_id"
-    t.index ["genres", "tags"], name: "index_writings_on_genres_and_tags", using: :gin
     t.index ["last_published"], name: "index_writings_on_last_published"
     t.index ["rank"], name: "index_writings_on_rank"
     t.index ["rel_rank"], name: "index_writings_on_rel_rank"
+    t.index ["topics", "tags"], name: "index_writings_on_topics_and_tags", using: :gin
     t.index ["user_id"], name: "index_writings_on_user_id"
     t.index ["uuid"], name: "index_writings_on_uuid"
     t.index ["writing_type"], name: "index_writings_on_writing_type"
@@ -183,6 +198,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_20_145355) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chapters", "users"
   add_foreign_key "chapters", "writings"
+  add_foreign_key "collections", "creators"
+  add_foreign_key "collections", "users"
   add_foreign_key "creator_genres", "creators"
   add_foreign_key "creator_genres", "genres"
   add_foreign_key "creator_tags", "creators"

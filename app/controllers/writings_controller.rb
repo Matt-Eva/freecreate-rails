@@ -19,23 +19,23 @@ class WritingsController < ApplicationController
 
     def create
         @user = Current.user
-        if @user
-            @creator = @user.creators.find_by(uuid: params[:writing][:creator_uuid])
-            if @creator
-                new_writing_params = {
-                    user_id: @user.id,
-                    creator_id: @creator.id,
-                    writing_type: params[:writing][:writing_type],
-                    title: params[:writing][:title],
-                    last_published: Time.now
-                }
-                @writing = Writing.create(new_writing_params)
-                if @writing
-                    redirect_to "/writings/#{@writing.uuid}/edit", status: :see_other
-                else
-                    render :new, status: :unprocessable_entity
-                end
+        @creator = @user.creators.find_by(uuid: params[:writing][:creator_uuid])
+        if @creator
+            new_writing_params = {
+                user_id: @user.id,
+                creator_id: @creator.id,
+                writing_type: params[:writing][:writing_type],
+                title: params[:writing][:title],
+                last_published: Time.now
+            }
+            @writing = Writing.create!(new_writing_params)
+            if @writing
+                redirect_to "/writings/#{@writing.uuid}/edit"
+            else
+                render :new, status: :unprocessable_entity
             end
+        else
+            render :new, status: :unauthorized
         end
     end
 
@@ -43,21 +43,76 @@ class WritingsController < ApplicationController
         @user = Current.user
         @writing = @user.writings.includes(:creator).find_by(uuid: params[:uuid])
         @creators = @user.creators
+        @chapter = Chapter.new
     end
 
     def update
-        puts params
+        writing_params = params[:writing]
+        @user = Current.user
+        @writing = @user.writings.find_by(uuid: params[:uuid])
+        @creators = @user.creators
+        creator = @creators.find {|c| c.uuid == writing_params[:creator_uuid]}
+        if creator
+            update_hash = {
+                creator_id: creator.id,
+                topics: (writing_params[:topics] ? writing_params[:topics] : ["No Topic"]),
+                title: writing_params[:title],
+                tags: (writing_params[:tags] ? writing_params[:tags] : []),
+                writing_type: writing_params[:writing_type],
+                description: writing_params[:description],
+            }
+            if @writing.update!(update_hash)
+                respond_to do |format|
+                    format.turbo_stream do 
+                        render turbo_stream: turbo_stream.replace("edit_writing_form", partial: "edit_writing_form", writing: @writing)
+                    end
+
+                    @chapter = Chapter.new
+                    format.html { render :edit, status: :accepted}
+                end
+            else
+                puts "unprocessable entity"
+                render :edit, status: :unprocessable_entity
+            end
+        else
+            puts "creator not found"
+            redirect_to action: :index
+        end
     end
 
     def publish
-        @writing = Current.user.writings.find_by(uuid: params[:uuid])
+        @user = Current.user
+        @writing = @user.writings.find_by(uuid: params[:uuid])
+        # @writing = nil
         if @writing
-            if @writing.published
-                @writing.update(published: false)
-            elsif !@writing.published
-                @writing.update(published: true)
+            update_hash = {
+                published: !@writing.published
+            }
+            if @writing.never_published
+                update_hash[:never_published] = false
+                update_hash[:last_published] = Time.now
+            end
+
+            if  @writing.update!(update_hash)
+                respond_to do |format|
+                    format.turbo_stream do 
+                        render turbo_stream: turbo_stream.replace(
+                            "publish_writing_button", 
+                            partial: "publish_writing_button",
+                            writing: @writing
+                        )  
+                    end
+                    @creators = @user.creators
+                    @chapter = Chapter.new
+                    format.html {render :edit, status: :accepted}
+                end
+            else
+                @creators = @user.creators
+                @chapter = Chapter.new
+                render :edit, status: :unprocessable_entity
             end
         else
+            redirect_to action: :index
         end
     end
 

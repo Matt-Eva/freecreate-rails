@@ -3,6 +3,10 @@
     <p>Looks like you don't have any writing yet!</p>
 <% else %>
     <div>
+        <a href="/writings/new">New Writing</a>
+        <a href="/collections/new">New Collection</a>
+    </div>
+    <div>
         <h3>Published Writing</h3>
         <% @published_writing.each do |writing| %>
             <div>
